@@ -1,0 +1,330 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <AssemblyName>jhipster-net-sample-application</AssemblyName>
+        <Version>0.0.1-SNAPSHOT</Version>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+        <RootNamespace>JHipsterNetSampleApplication</RootNamespace>
+        <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+        <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+        <IsPackable>false</IsPackable>
+        <!--<SpaRoot>ClientApp\</SpaRoot>-->
+        <!--<DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>-->
+
+        <!-- Set this to true if you enable server-side prerendering -->
+        <BuildServerSideRenderer>false</BuildServerSideRenderer>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
+        <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="2.2.1" />
+        <PackageReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+        <PackageReference Include="BCrypt.Net-Next" Version="3.1.2" />
+        <PackageReference Include="LanguageExt.Core" Version="3.1.14" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\JHipsterNet\JHipsterNet.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Don't publish the SPA source files, but do show them in the project files list -->
+        <Content Remove="$(SpaRoot)**" />
+        <Content Include="ClientApp\404.html" />
+        <Content Include="ClientApp\angular.json">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </Content>
+        <Content Include="ClientApp\app\account\account.module.ts" />
+        <Content Include="ClientApp\app\account\account.route.ts" />
+        <Content Include="ClientApp\app\account\activate\activate.component.html" />
+        <Content Include="ClientApp\app\account\activate\activate.component.ts" />
+        <Content Include="ClientApp\app\account\activate\activate.route.ts" />
+        <Content Include="ClientApp\app\account\activate\activate.service.ts" />
+        <Content Include="ClientApp\app\account\index.ts" />
+        <Content Include="ClientApp\app\account\password-reset\finish\password-reset-finish.component.html" />
+        <Content Include="ClientApp\app\account\password-reset\finish\password-reset-finish.component.ts" />
+        <Content Include="ClientApp\app\account\password-reset\finish\password-reset-finish.route.ts" />
+        <Content Include="ClientApp\app\account\password-reset\finish\password-reset-finish.service.ts" />
+        <Content Include="ClientApp\app\account\password-reset\init\password-reset-init.component.html" />
+        <Content Include="ClientApp\app\account\password-reset\init\password-reset-init.component.ts" />
+        <Content Include="ClientApp\app\account\password-reset\init\password-reset-init.route.ts" />
+        <Content Include="ClientApp\app\account\password-reset\init\password-reset-init.service.ts" />
+        <Content Include="ClientApp\app\account\password\password-strength-bar.component.ts" />
+        <Content Include="ClientApp\app\account\password\password-strength-bar.css" />
+        <Content Include="ClientApp\app\account\password\password.component.html" />
+        <Content Include="ClientApp\app\account\password\password.component.ts" />
+        <Content Include="ClientApp\app\account\password\password.route.ts" />
+        <Content Include="ClientApp\app\account\password\password.service.ts" />
+        <Content Include="ClientApp\app\account\register\register.component.html" />
+        <Content Include="ClientApp\app\account\register\register.component.ts" />
+        <Content Include="ClientApp\app\account\register\register.route.ts" />
+        <Content Include="ClientApp\app\account\register\register.service.ts" />
+        <Content Include="ClientApp\app\account\settings\settings.component.html" />
+        <Content Include="ClientApp\app\account\settings\settings.component.ts" />
+        <Content Include="ClientApp\app\account\settings\settings.route.ts" />
+        <Content Include="ClientApp\app\admin\admin.module.ts" />
+        <Content Include="ClientApp\app\admin\admin.route.ts" />
+        <Content Include="ClientApp\app\admin\audits\audit-data.model.ts" />
+        <Content Include="ClientApp\app\admin\audits\audit.model.ts" />
+        <Content Include="ClientApp\app\admin\audits\audits.component.html" />
+        <Content Include="ClientApp\app\admin\audits\audits.component.ts" />
+        <Content Include="ClientApp\app\admin\audits\audits.route.ts" />
+        <Content Include="ClientApp\app\admin\audits\audits.service.ts" />
+        <Content Include="ClientApp\app\admin\configuration\configuration.component.html" />
+        <Content Include="ClientApp\app\admin\configuration\configuration.component.ts" />
+        <Content Include="ClientApp\app\admin\configuration\configuration.route.ts" />
+        <Content Include="ClientApp\app\admin\configuration\configuration.service.ts" />
+        <Content Include="ClientApp\app\admin\docs\docs.component.html" />
+        <Content Include="ClientApp\app\admin\docs\docs.component.ts" />
+        <Content Include="ClientApp\app\admin\docs\docs.route.ts" />
+        <Content Include="ClientApp\app\admin\health\health-modal.component.html" />
+        <Content Include="ClientApp\app\admin\health\health-modal.component.ts" />
+        <Content Include="ClientApp\app\admin\health\health.component.html" />
+        <Content Include="ClientApp\app\admin\health\health.component.ts" />
+        <Content Include="ClientApp\app\admin\health\health.route.ts" />
+        <Content Include="ClientApp\app\admin\health\health.service.ts" />
+        <Content Include="ClientApp\app\admin\index.ts" />
+        <Content Include="ClientApp\app\admin\logs\log.model.ts" />
+        <Content Include="ClientApp\app\admin\logs\logs.component.html" />
+        <Content Include="ClientApp\app\admin\logs\logs.component.ts" />
+        <Content Include="ClientApp\app\admin\logs\logs.route.ts" />
+        <Content Include="ClientApp\app\admin\logs\logs.service.ts" />
+        <Content Include="ClientApp\app\admin\metrics\metrics-modal.component.html" />
+        <Content Include="ClientApp\app\admin\metrics\metrics-modal.component.ts" />
+        <Content Include="ClientApp\app\admin\metrics\metrics.component.html" />
+        <Content Include="ClientApp\app\admin\metrics\metrics.component.ts" />
+        <Content Include="ClientApp\app\admin\metrics\metrics.route.ts" />
+        <Content Include="ClientApp\app\admin\metrics\metrics.service.ts" />
+        <Content Include="ClientApp\app\admin\user-management\user-management-delete-dialog.component.html" />
+        <Content Include="ClientApp\app\admin\user-management\user-management-delete-dialog.component.ts" />
+        <Content Include="ClientApp\app\admin\user-management\user-management-detail.component.html" />
+        <Content Include="ClientApp\app\admin\user-management\user-management-detail.component.ts" />
+        <Content Include="ClientApp\app\admin\user-management\user-management-update.component.html" />
+        <Content Include="ClientApp\app\admin\user-management\user-management-update.component.ts" />
+        <Content Include="ClientApp\app\admin\user-management\user-management.component.html" />
+        <Content Include="ClientApp\app\admin\user-management\user-management.component.ts" />
+        <Content Include="ClientApp\app\admin\user-management\user-management.route.ts" />
+        <Content Include="ClientApp\app\app-routing.module.ts" />
+        <Content Include="ClientApp\app\app.constants.ts" />
+        <Content Include="ClientApp\app\app.main.ts" />
+        <Content Include="ClientApp\app\app.module.ts" />
+        <Content Include="ClientApp\app\blocks\config\prod.config.ts" />
+        <Content Include="ClientApp\app\blocks\config\uib-pagination.config.ts" />
+        <Content Include="ClientApp\app\blocks\interceptor\auth-expired.interceptor.ts" />
+        <Content Include="ClientApp\app\blocks\interceptor\auth.interceptor.ts" />
+        <Content Include="ClientApp\app\blocks\interceptor\errorhandler.interceptor.ts" />
+        <Content Include="ClientApp\app\blocks\interceptor\notification.interceptor.ts" />
+        <Content Include="ClientApp\app\core\auth\account.service.ts" />
+        <Content Include="ClientApp\app\core\auth\auth-jwt.service.ts" />
+        <Content Include="ClientApp\app\core\auth\csrf.service.ts" />
+        <Content Include="ClientApp\app\core\auth\state-storage.service.ts" />
+        <Content Include="ClientApp\app\core\auth\user-route-access-service.ts" />
+        <Content Include="ClientApp\app\core\core.module.ts" />
+        <Content Include="ClientApp\app\core\index.ts" />
+        <Content Include="ClientApp\app\core\language\language.constants.ts" />
+        <Content Include="ClientApp\app\core\language\language.helper.ts" />
+        <Content Include="ClientApp\app\core\login\login-modal.service.ts" />
+        <Content Include="ClientApp\app\core\login\login.service.ts" />
+        <Content Include="ClientApp\app\core\user\account.model.ts" />
+        <Content Include="ClientApp\app\core\user\user.model.ts" />
+        <Content Include="ClientApp\app\core\user\user.service.ts" />
+        <Content Include="ClientApp\app\entities\bank-account\bank-account-delete-dialog.component.html" />
+        <Content Include="ClientApp\app\entities\bank-account\bank-account-delete-dialog.component.ts" />
+        <Content Include="ClientApp\app\entities\bank-account\bank-account-detail.component.html" />
+        <Content Include="ClientApp\app\entities\bank-account\bank-account-detail.component.ts" />
+        <Content Include="ClientApp\app\entities\bank-account\bank-account-update.component.html" />
+        <Content Include="ClientApp\app\entities\bank-account\bank-account-update.component.ts" />
+        <Content Include="ClientApp\app\entities\bank-account\bank-account.component.html" />
+        <Content Include="ClientApp\app\entities\bank-account\bank-account.component.ts" />
+        <Content Include="ClientApp\app\entities\bank-account\bank-account.module.ts" />
+        <Content Include="ClientApp\app\entities\bank-account\bank-account.route.ts" />
+        <Content Include="ClientApp\app\entities\bank-account\bank-account.service.ts" />
+        <Content Include="ClientApp\app\entities\bank-account\index.ts" />
+        <Content Include="ClientApp\app\entities\entity.module.ts" />
+        <Content Include="ClientApp\app\entities\label\index.ts" />
+        <Content Include="ClientApp\app\entities\label\label-delete-dialog.component.html" />
+        <Content Include="ClientApp\app\entities\label\label-delete-dialog.component.ts" />
+        <Content Include="ClientApp\app\entities\label\label-detail.component.html" />
+        <Content Include="ClientApp\app\entities\label\label-detail.component.ts" />
+        <Content Include="ClientApp\app\entities\label\label-update.component.html" />
+        <Content Include="ClientApp\app\entities\label\label-update.component.ts" />
+        <Content Include="ClientApp\app\entities\label\label.component.html" />
+        <Content Include="ClientApp\app\entities\label\label.component.ts" />
+        <Content Include="ClientApp\app\entities\label\label.module.ts" />
+        <Content Include="ClientApp\app\entities\label\label.route.ts" />
+        <Content Include="ClientApp\app\entities\label\label.service.ts" />
+        <Content Include="ClientApp\app\entities\operation\index.ts" />
+        <Content Include="ClientApp\app\entities\operation\operation-delete-dialog.component.html" />
+        <Content Include="ClientApp\app\entities\operation\operation-delete-dialog.component.ts" />
+        <Content Include="ClientApp\app\entities\operation\operation-detail.component.html" />
+        <Content Include="ClientApp\app\entities\operation\operation-detail.component.ts" />
+        <Content Include="ClientApp\app\entities\operation\operation-update.component.html" />
+        <Content Include="ClientApp\app\entities\operation\operation-update.component.ts" />
+        <Content Include="ClientApp\app\entities\operation\operation.component.html" />
+        <Content Include="ClientApp\app\entities\operation\operation.component.ts" />
+        <Content Include="ClientApp\app\entities\operation\operation.module.ts" />
+        <Content Include="ClientApp\app\entities\operation\operation.route.ts" />
+        <Content Include="ClientApp\app\entities\operation\operation.service.ts" />
+        <Content Include="ClientApp\app\home\home.component.html" />
+        <Content Include="ClientApp\app\home\home.component.ts" />
+        <Content Include="ClientApp\app\home\home.css" />
+        <Content Include="ClientApp\app\home\home.module.ts" />
+        <Content Include="ClientApp\app\home\home.route.ts" />
+        <Content Include="ClientApp\app\home\index.ts" />
+        <Content Include="ClientApp\app\layouts\error\error.component.html" />
+        <Content Include="ClientApp\app\layouts\error\error.component.ts" />
+        <Content Include="ClientApp\app\layouts\error\error.route.ts" />
+        <Content Include="ClientApp\app\layouts\footer\footer.component.html" />
+        <Content Include="ClientApp\app\layouts\footer\footer.component.ts" />
+        <Content Include="ClientApp\app\layouts\index.ts" />
+        <Content Include="ClientApp\app\layouts\main\main.component.html" />
+        <Content Include="ClientApp\app\layouts\main\main.component.ts" />
+        <Content Include="ClientApp\app\layouts\navbar\active-menu.directive.ts" />
+        <Content Include="ClientApp\app\layouts\navbar\navbar.component.html" />
+        <Content Include="ClientApp\app\layouts\navbar\navbar.component.ts" />
+        <Content Include="ClientApp\app\layouts\navbar\navbar.css" />
+        <Content Include="ClientApp\app\layouts\navbar\navbar.route.ts" />
+        <Content Include="ClientApp\app\layouts\profiles\page-ribbon.component.ts" />
+        <Content Include="ClientApp\app\layouts\profiles\page-ribbon.css" />
+        <Content Include="ClientApp\app\layouts\profiles\profile-info.model.ts" />
+        <Content Include="ClientApp\app\layouts\profiles\profile.service.ts" />
+        <Content Include="ClientApp\app\polyfills.ts" />
+        <Content Include="ClientApp\app\shared\alert\alert-error.component.ts" />
+        <Content Include="ClientApp\app\shared\alert\alert.component.ts" />
+        <Content Include="ClientApp\app\shared\auth\has-any-authority.directive.ts" />
+        <Content Include="ClientApp\app\shared\constants\error.constants.ts" />
+        <Content Include="ClientApp\app\shared\constants\input.constants.ts" />
+        <Content Include="ClientApp\app\shared\constants\pagination.constants.ts" />
+        <Content Include="ClientApp\app\shared\index.ts" />
+        <Content Include="ClientApp\app\shared\language\find-language-from-key.pipe.ts" />
+        <Content Include="ClientApp\app\shared\login\login.component.html" />
+        <Content Include="ClientApp\app\shared\login\login.component.ts" />
+        <Content Include="ClientApp\app\shared\model\bank-account.model.ts" />
+        <Content Include="ClientApp\app\shared\model\label.model.ts" />
+        <Content Include="ClientApp\app\shared\model\operation.model.ts" />
+        <Content Include="ClientApp\app\shared\shared-common.module.ts" />
+        <Content Include="ClientApp\app\shared\shared-libs.module.ts" />
+        <Content Include="ClientApp\app\shared\shared.module.ts" />
+        <Content Include="ClientApp\app\shared\util\datepicker-adapter.ts" />
+        <Content Include="ClientApp\app\shared\util\request-util.ts" />
+        <Content Include="ClientApp\app\vendor.ts" />
+        <Content Include="ClientApp\content\css\documentation.css" />
+        <Content Include="ClientApp\content\css\global.css" />
+        <Content Include="ClientApp\content\css\loading.css" />
+        <Content Include="ClientApp\content\css\vendor.css" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_0.svg" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_0_head-192.png" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_0_head-256.png" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_0_head-384.png" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_0_head-512.png" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_1.svg" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_1_head-192.png" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_1_head-256.png" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_1_head-384.png" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_1_head-512.png" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_2.svg" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_2_head-192.png" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_2_head-256.png" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_2_head-384.png" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_2_head-512.png" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_3.svg" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_3_head-192.png" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_3_head-256.png" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_3_head-384.png" />
+        <Content Include="ClientApp\content\images\jhipster_family_member_3_head-512.png" />
+        <Content Include="ClientApp\content\images\logo-jhipster.png" />
+        <Content Include="ClientApp\e2e\protractor.conf.js" />
+        <Content Include="ClientApp\e2e\src\account\account.spec.ts" />
+        <Content Include="ClientApp\e2e\src\admin\administration.spec.ts" />
+        <Content Include="ClientApp\e2e\src\entities\bank-account\bank-account.page-object.ts" />
+        <Content Include="ClientApp\e2e\src\entities\bank-account\bank-account.spec.ts" />
+        <Content Include="ClientApp\e2e\src\entities\label\label.page-object.ts" />
+        <Content Include="ClientApp\e2e\src\entities\label\label.spec.ts" />
+        <Content Include="ClientApp\e2e\src\entities\operation\operation.page-object.ts" />
+        <Content Include="ClientApp\e2e\src\entities\operation\operation.spec.ts" />
+        <Content Include="ClientApp\e2e\src\page-objects\jhi-page-objects.ts" />
+        <Content Include="ClientApp\favicon.ico" />
+        <Content Include="ClientApp\i18n\en\activate.json" />
+        <Content Include="ClientApp\i18n\en\audits.json" />
+        <Content Include="ClientApp\i18n\en\bankAccount.json" />
+        <Content Include="ClientApp\i18n\en\configuration.json" />
+        <Content Include="ClientApp\i18n\en\error.json" />
+        <Content Include="ClientApp\i18n\en\global.json" />
+        <Content Include="ClientApp\i18n\en\health.json" />
+        <Content Include="ClientApp\i18n\en\home.json" />
+        <Content Include="ClientApp\i18n\en\label.json" />
+        <Content Include="ClientApp\i18n\en\login.json" />
+        <Content Include="ClientApp\i18n\en\logs.json" />
+        <Content Include="ClientApp\i18n\en\metrics.json" />
+        <Content Include="ClientApp\i18n\en\operation.json" />
+        <Content Include="ClientApp\i18n\en\password.json" />
+        <Content Include="ClientApp\i18n\en\register.json" />
+        <Content Include="ClientApp\i18n\en\reset.json" />
+        <Content Include="ClientApp\i18n\en\sessions.json" />
+        <Content Include="ClientApp\i18n\en\settings.json" />
+        <Content Include="ClientApp\i18n\en\user-management.json" />
+        <Content Include="ClientApp\index.html" />
+        <Content Include="ClientApp\manifest.webapp" />
+        <Content Include="ClientApp\package-lock.json">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </Content>
+        <Content Include="ClientApp\package.json">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </Content>
+        <Content Include="ClientApp\proxy.conf.json">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </Content>
+        <Content Include="ClientApp\robots.txt" />
+        <Content Include="ClientApp\swagger-ui\dist\images\throbber.gif" />
+        <Content Include="ClientApp\swagger-ui\index.html" />
+        <Content Include="ClientApp\tsconfig-aot.json">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </Content>
+        <Content Include="ClientApp\tsconfig.json">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </Content>
+        <Content Include="ClientApp\tslint.json">
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </Content>
+        <None Remove="$(SpaRoot)**" />
+        <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\JHipsterNet\JHipsterNet.csproj" />
+    </ItemGroup>
+
+
+    <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+    <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    </Target>
+
+    <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
+
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+    <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
+    <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
+    <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+    <RelativePath>%(DistFiles.Identity)</RelativePath>
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </ResolvedFileToPublish>
+    </ItemGroup>
+    </Target>
+
+</Project>

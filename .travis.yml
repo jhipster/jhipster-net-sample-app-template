@@ -1,0 +1,14 @@
+language: csharp
+mono: none
+sudo: required
+dotnet: 2.2
+solution: jhipster-net-sample-app.sln
+
+global:
+    - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
+    - DOTNET_CLI_TELEMETRY_OPTOUT=1
+
+script:
+    - dotnet restore
+    - dotnet build
+    - dotnet test test/JHipsterNetSampleApplication.Tests/JHipsterNetSampleApplication.Tests.csproj
