@@ -1,21 +1,27 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-import { NhipsterSampleApplicationBankAccountModule } from './bank-account/bank-account.module';
-import { NhipsterSampleApplicationLabelModule } from './label/label.module';
-import { NhipsterSampleApplicationOperationModule } from './operation/operation.module';
-/* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  // prettier-ignore
-  imports: [
-        NhipsterSampleApplicationBankAccountModule,
-        NhipsterSampleApplicationLabelModule,
-        NhipsterSampleApplicationOperationModule,
-        /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
+    imports: [
+        RouterModule.forChild([
+            {
+                path: 'bank-account',
+                loadChildren: './bank-account/bank-account.module#JhipsterNetSampleApplicationBankAccountModule'
+            },
+            {
+                path: 'label',
+                loadChildren: './label/label.module#JhipsterNetSampleApplicationLabelModule'
+            },
+            {
+                path: 'operation',
+                loadChildren: './operation/operation.module#JhipsterNetSampleApplicationOperationModule'
+            }
+            /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
+        ])
     ],
-  declarations: [],
-  entryComponents: [],
-  providers: [],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    declarations: [],
+    entryComponents: [],
+    providers: [],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class NhipsterSampleApplicationEntityModule {}
+export class JhipsterNetSampleApplicationEntityModule {}

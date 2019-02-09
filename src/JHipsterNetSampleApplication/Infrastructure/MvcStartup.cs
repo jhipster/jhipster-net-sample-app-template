@@ -14,9 +14,6 @@ namespace JHipsterNetSampleApplication.Infrastructure {
 
             @this.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            // In production, the Angular files will be served from this directory
-            @this.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
-
             //https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-2.2
             @this.AddHealthChecks();
 
@@ -33,26 +30,12 @@ namespace JHipsterNetSampleApplication.Infrastructure {
 
         public static IApplicationBuilder UseApplicationWeb(this IApplicationBuilder @this, IHostingEnvironment env)
         {
+            @this.UseDefaultFiles();
             @this.UseStaticFiles();
-            @this.UseSpaStaticFiles();
 
             @this.UseMvc();
 
             @this.UseHealthChecks("/health");
-
-            //Do not use
-//            @this.UseSpa(spa =>
-//            {
-//                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-//                // see https://go.microsoft.com/fwlink/?linkid=864501
-//
-//                spa.Options.SourcePath = "ClientApp";
-//
-//                if (env.IsDevelopment())
-//                {
-//                    spa.UseAngularCliServer(npmScript: "start");
-//                }
-//            });
 
             return @this;
         }

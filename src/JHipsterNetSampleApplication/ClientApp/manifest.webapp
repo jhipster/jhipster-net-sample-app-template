@@ -1,6 +1,6 @@
 {
-  "name": "NhipsterSampleApplication",
-  "short_name": "NhipsterSampleApplication",
+  "name": "JhipsterNetSampleApplication",
+  "short_name": "JhipsterNetSampleApplication",
   "icons": [
       {
           "src": "./content/images/jhipster_family_member_1_head-192.png",

@@ -1,19 +1,19 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="bankAccount">
-            <h2><span jhiTranslate="nhipsterSampleApplicationApp.bankAccount.detail.title">Bank Account</span> {{bankAccount.id}}</h2>
+            <h2><span jhiTranslate="JhipsterNetSampleApplicationApp.bankAccount.detail.title">Bank Account</span> {{bankAccount.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="nhipsterSampleApplicationApp.bankAccount.name">Name</span></dt>
+                <dt><span jhiTranslate="JhipsterNetSampleApplicationApp.bankAccount.name">Name</span></dt>
                 <dd>
                     <span>{{bankAccount.name}}</span>
                 </dd>
-                <dt><span jhiTranslate="nhipsterSampleApplicationApp.bankAccount.balance">Balance</span></dt>
+                <dt><span jhiTranslate="JhipsterNetSampleApplicationApp.bankAccount.balance">Balance</span></dt>
                 <dd>
                     <span>{{bankAccount.balance}}</span>
                 </dd>
-                <dt><span jhiTranslate="nhipsterSampleApplicationApp.bankAccount.user">User</span></dt>
+                <dt><span jhiTranslate="JhipsterNetSampleApplicationApp.bankAccount.user">User</span></dt>
                 <dd>
                     {{bankAccount.user?.login}}
                 </dd>

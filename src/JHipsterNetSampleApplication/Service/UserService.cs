@@ -108,7 +108,7 @@ namespace JHipsterNetSampleApplication.Service {
 
         public async Task ChangePassword(string currentClearTextPassword, string newPassword)
         {
-            var userName = _httpContextAccessor.HttpContext.User.Identity.Name;
+            var userName = _userManager.GetUserName(_httpContextAccessor.HttpContext.User);
             var user = await _userManager.FindByNameAsync(userName);
             if (user != null) {
                 var currentEncryptedPassword = user.PasswordHash;
@@ -174,7 +174,7 @@ namespace JHipsterNetSampleApplication.Service {
 
         public async Task UpdateUser(string firstName, string lastName, string email, string langKey, string imageUrl)
         {
-            var userName = _httpContextAccessor.HttpContext.User.Identity.Name;
+            var userName = _userManager.GetUserName(_httpContextAccessor.HttpContext.User);
             var user = await _userManager.FindByNameAsync(userName);
             if (user != null) {
                 user.FirstName = firstName;

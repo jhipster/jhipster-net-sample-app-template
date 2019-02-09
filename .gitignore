@@ -237,4 +237,5 @@ _Pvt_Extensions
 .idea/
 
 #Angular
+**/wwwroot/
 **/ClientApp/dist/

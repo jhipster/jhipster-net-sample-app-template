@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-label-heading" jhiTranslate="nhipsterSampleApplicationApp.label.home.createOrEditLabel">Create or edit a Label</h2>
+            <h2 id="jhi-label-heading" jhiTranslate="JhipsterNetSampleApplicationApp.label.home.createOrEditLabel">Create or edit a Label</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!label.id">
@@ -10,7 +10,7 @@
                         [(ngModel)]="label.id" readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="nhipsterSampleApplicationApp.label.label" for="field_label">Label</label>
+                    <label class="form-control-label" jhiTranslate="JhipsterNetSampleApplicationApp.label.label" for="field_label">Label</label>
                     <input type="text" class="form-control" name="label" id="field_label"
                         [(ngModel)]="label.label" required minlength="3"/>
                     <div [hidden]="!(editForm.controls.label?.dirty && editForm.controls.label?.invalid)">
@@ -19,7 +19,7 @@
                         This field is required.
                         </small>
                         <small class="form-text text-danger"
-                        [hidden]="!editForm.controls.label?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 3 }">
+                        [hidden]="!editForm.controls.label?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 3 }">
                         This field is required to be at least 3 characters.
                         </small>
                     </div>

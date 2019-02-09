@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using JHipsterNetSampleApplication.Infrastructure;
 using JHipsterNetSampleApplication.Security;
 using JHipsterNetSampleApplication.Test.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace JHipsterNetSampleApplication.Test.Setup {
     public class NhipsterWebApplicationFactory<TEntryPoint> : WebApplicationFactory<TEntryPoint>
@@ -46,7 +48,7 @@ namespace JHipsterNetSampleApplication.Test.Setup {
         {
             if (roles == null || !roles.Any()) roles = new HashSet<string> {RolesConstants.USER};
 
-            var claims = new List<Claim> {new Claim(ClaimTypes.Name, name)};
+            var claims = new List<Claim> {new Claim(SecurityStartup.UserNameClaimType, name)};
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
             return new ClaimsPrincipal(new ClaimsIdentity(claims.ToArray(), authenticationType));
         }

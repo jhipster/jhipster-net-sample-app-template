@@ -10,17 +10,17 @@
         "noImplicitAny": false,
         "suppressImplicitAnyIndexErrors": true,
         "skipLibCheck": true,
-        "outDir": "./dist/out-tsc",
+        "outDir": "wwwwroot/app",
         "lib": ["es7", "dom"],
         "typeRoots": ["node_modules/@types"],
         "baseUrl": "./",
         "paths": {
-            "app/*": ["app/*"]
+            "app/*": ["ClientApp/app/*"]
         },
         "importHelpers": true
     },
     "angularCompilerOptions": {
-        "genDir": "target/aot",
+        "genDir": "bin/aot",
         "skipMetadataEmit": true,
         "fullTemplateTypeCheck": true,
         "preserveWhitespaces": true
