@@ -1,5 +1,7 @@
 # JHipsterNetSampleApplication
 
+[![Build Status](https://travis-ci.org/jhipster/jhipster-net-sample-app-template.svg?branch=master)](https://travis-ci.org/jhipster/jhipster-net-sample-app-template)
+
 *This is a WIP project, please don't use it as is.*
 
 This application used as template to build the [jhipster-dotnetcore](https://github.com/jhipster/jhipster-dotnetcore) generator. The objective is port JHipster to the .Net core platform thus be able to generate a `.Net Core` monolith application.
