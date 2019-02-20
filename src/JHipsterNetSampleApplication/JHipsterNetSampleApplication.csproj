@@ -41,8 +41,8 @@
         <EmbeddedResource Remove="bin\**" />
         <EmbeddedResource Remove="obj\**" />
         <None Remove="bin\**" />
-        <None Remove="obj\**" />
         <None Remove="$(SpaRoot)**" />
+        <None Remove="obj\**" />
         <Content Remove="$(SpaRoot)**" />
         <Content Include="ClientApp\404.html" />
         <Content Include="ClientApp\angular.json">
@@ -312,7 +312,12 @@
       <None Remove="bin\Debug\netcoreapp2.2\JHipsterNet.dll" />
       <None Remove="bin\Debug\netcoreapp2.2\JHipsterNet.pdb" />
       <None Remove="JHipsterNetSampleApplication.csproj" />
-      <None Remove="obj\Debug\netcoreapp2.2\JHipsterNetSampleApplication.csproj.FileListAbsolute.txt" />
+      <None Remove="obj\Debug\netcoreapp2.2\JHipsterNetSampleApplication.AssemblyInfo.cs" />
+      <None Remove="obj\Debug\netcoreapp2.2\JHipsterNetSampleApplication.AssemblyInfoInputs.cache" />
+      <None Remove="obj\Debug\netcoreapp2.2\JHipsterNetSampleApplication.csproj.CoreCompileInputs.cache" />
+      <None Remove="obj\Debug\netcoreapp2.2\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+      <None Remove="obj\Debug\netcoreapp2.2\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+      <None Remove="obj\Debug\netcoreapp2.2\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     </ItemGroup>
 
 
