@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <AssemblyName>jhipster-net-sample-application</AssemblyName>
@@ -34,6 +34,15 @@
 
     <ItemGroup>
         <!-- Don't publish the SPA source files, but do show them in the project files list -->
+        <Compile Remove="bin\**" />
+        <Compile Remove="obj\**" />
+        <Content Remove="bin\**" />
+        <Content Remove="obj\**" />
+        <EmbeddedResource Remove="bin\**" />
+        <EmbeddedResource Remove="obj\**" />
+        <None Remove="bin\**" />
+        <None Remove="obj\**" />
+        <None Remove="$(SpaRoot)**" />
         <Content Remove="$(SpaRoot)**" />
         <Content Include="ClientApp\404.html" />
         <Content Include="ClientApp\angular.json">
@@ -291,8 +300,19 @@
         <Content Include="ClientApp\tslint.json">
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         </Content>
-        <None Remove="$(SpaRoot)**" />
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="bin\Debug\netcoreapp2.2\jhipster-net-sample-application.deps.json" />
+      <None Remove="bin\Debug\netcoreapp2.2\jhipster-net-sample-application.dll" />
+      <None Remove="bin\Debug\netcoreapp2.2\jhipster-net-sample-application.pdb" />
+      <None Remove="bin\Debug\netcoreapp2.2\jhipster-net-sample-application.runtimeconfig.dev.json" />
+      <None Remove="bin\Debug\netcoreapp2.2\jhipster-net-sample-application.runtimeconfig.json" />
+      <None Remove="bin\Debug\netcoreapp2.2\JHipsterNet.dll" />
+      <None Remove="bin\Debug\netcoreapp2.2\JHipsterNet.pdb" />
+      <None Remove="JHipsterNetSampleApplication.csproj" />
+      <None Remove="obj\Debug\netcoreapp2.2\JHipsterNetSampleApplication.csproj.FileListAbsolute.txt" />
     </ItemGroup>
 
 

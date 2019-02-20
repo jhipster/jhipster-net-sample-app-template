@@ -1,28 +1,28 @@
-using System;
-using System.Threading.Tasks;
 using AutoMapper;
 using JHipsterNetSampleApplication.Models;
+using JHipsterNetSampleApplication.Models.Vm;
 using JHipsterNetSampleApplication.Service;
 using JHipsterNetSampleApplication.Service.Dto;
 using JHipsterNetSampleApplication.Web.Extensions;
 using JHipsterNetSampleApplication.Web.Filters;
 using JHipsterNetSampleApplication.Web.Rest.Problems;
-using JHipsterNetSampleApplication.Web.Rest.Vm;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
-namespace JHipsterNetSampleApplication.Web.Rest {
+namespace JHipsterNetSampleApplication.Controllers {
     [Route("api")]
     [ApiController]
-    public class AccountResource : ControllerBase {
-        private readonly ILogger<AccountResource> _log;
+    public class AccountController : ControllerBase {
+        private readonly ILogger<AccountController> _log;
         private readonly IMailService _mailService;
         private readonly UserManager<User> _userManager;
         private readonly IMapper _userMapper;
         private readonly IUserService _userService;
 
-        public AccountResource(ILogger<AccountResource> log, UserManager<User> userManager, IUserService userService,
+        public AccountController(ILogger<AccountController> log, UserManager<User> userManager, IUserService userService,
             IMapper userMapper, IMailService mailService)
         {
             _log = log;

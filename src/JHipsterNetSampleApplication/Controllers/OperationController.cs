@@ -14,18 +14,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace JHipsterNetSampleApplication.Web.Rest {
+namespace JHipsterNetSampleApplication.Controllers {
     [Authorize]
     [Route("api")]
     [ApiController]
-    public class OperationResource : ControllerBase {
+    public class OperationController : ControllerBase {
         private const string EntityName = "operation";
 
         private readonly ApplicationDatabaseContext _applicationDatabaseContext;
 
-        private readonly ILogger<OperationResource> _log;
+        private readonly ILogger<OperationController> _log;
 
-        public OperationResource(ILogger<OperationResource> log, ApplicationDatabaseContext applicationDatabaseContext)
+        public OperationController(ILogger<OperationController> log, ApplicationDatabaseContext applicationDatabaseContext)
         {
             _log = log;
             _applicationDatabaseContext = applicationDatabaseContext;

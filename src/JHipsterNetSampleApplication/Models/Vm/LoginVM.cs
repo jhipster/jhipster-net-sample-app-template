@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace JHipsterNetSampleApplication.Web.Rest.Vm {
+namespace JHipsterNetSampleApplication.Models.Vm {
     public class LoginVm {
         [Required]
         [StringLength(50, MinimumLength = 1)]
