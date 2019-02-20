@@ -11,12 +11,15 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace JHipsterNetSampleApplication {
     public sealed class Startup {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        private IHostingEnvironment Environment { get; }
 
         private IConfiguration Configuration { get; }
+
+        public Startup(IHostingEnvironment environment, IConfiguration configuration)
+        {
+            Environment = environment;
+            Configuration = configuration;
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -24,7 +27,7 @@ namespace JHipsterNetSampleApplication {
                 .AddNhipsterModule(Configuration)
                 .AddDatabaseModule(Configuration)
                 .AddSecurityModule()
-                .AddProblemDetailsModule()
+                .AddProblemDetailsModule(Environment)
                 .AddAutoMapperModule()
                 .AddWebModule()
                 .AddSwaggerModule();
