@@ -19,7 +19,7 @@
 
     <ItemGroup>
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
-        <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="3.0.0" />
+        <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="2.2.1" />
         <PackageReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.2" />

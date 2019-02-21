@@ -1,4 +1,4 @@
-using JHipsterNet.Problems;
+using JHipsterNetSampleApplication.Web.Rest.Problems;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
