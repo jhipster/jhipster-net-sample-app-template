@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Serilog;
 using System;
 using System.IO;
+using JHipsterNet.Logging;
 using ILogger = Serilog.ILogger;
 
 namespace JHipsterNetSampleApplication {
@@ -67,6 +68,7 @@ namespace JHipsterNetSampleApplication {
             var appConfiguration = GetAppConfiguration();
 
             var loggerConfiguration = new LoggerConfiguration()
+                .Enrich.With<LoggerNameEnricher>()
                 .ReadFrom.Configuration(appConfiguration);
 
             return Log.Logger = loggerConfiguration.CreateLogger();
