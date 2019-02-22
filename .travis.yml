@@ -1,6 +1,7 @@
 language: csharp
 mono: none
 sudo: required
+dist: xenial
 dotnet: 2.2
 solution: jhipster-net-sample-app.sln
 
@@ -11,4 +12,4 @@ global:
 script:
     - dotnet restore
     - dotnet build
-    - dotnet test test/JHipsterNetSampleApplication.Tests/JHipsterNetSampleApplication.Tests.csproj
+    - dotnet test
