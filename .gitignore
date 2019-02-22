@@ -235,3 +235,6 @@ _Pvt_Extensions
 
 #IntelliJ
 .idea/
+
+#Angular
+**/ClientApp/dist/

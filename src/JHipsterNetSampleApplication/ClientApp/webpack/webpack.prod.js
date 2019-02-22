@@ -24,7 +24,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         main: './app/app.main'
     },
     output: {
-        path: utils.root('target/www'),
+        path: utils.root('dist'),
         filename: 'app/[name].[hash].bundle.js',
         chunkFilename: 'app/[id].[hash].chunk.js'
     },
@@ -104,7 +104,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         }),
         new Visualizer({
             // Webpack statistics in target folder
-            filename: '../stats.html'
+            filename: 'stats.html'
         }),
         new AngularCompilerPlugin({
             mainPath: utils.root('app/app.main.ts'),

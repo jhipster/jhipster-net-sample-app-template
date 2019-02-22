@@ -6,7 +6,7 @@ const MergeJsonWebpackPlugin = require("merge-jsons-webpack-plugin");
 
 const utils = require('./utils.js');
 
-module.exports = (options) =;> ({
+module.exports = (options) => ({
     resolve: {
         extensions: ['.ts', '.js'],
         modules: ['node_modules'],
