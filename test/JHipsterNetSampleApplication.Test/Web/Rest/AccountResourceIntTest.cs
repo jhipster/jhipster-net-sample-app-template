@@ -1,20 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Castle.Core.Internal;
 using FluentAssertions;
 using FluentAssertions.Extensions;
 using JHipsterNetSampleApplication.Infrastructure;
 using JHipsterNetSampleApplication.Models;
+using JHipsterNetSampleApplication.Models.Vm;
 using JHipsterNetSampleApplication.Security;
 using JHipsterNetSampleApplication.Service.Dto;
 using JHipsterNetSampleApplication.Test.Setup;
-using JHipsterNetSampleApplication.Web.Rest.Vm;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace JHipsterNetSampleApplication.Test.Web.Rest {

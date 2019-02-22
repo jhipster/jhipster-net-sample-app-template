@@ -14,18 +14,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace JHipsterNetSampleApplication.Web.Rest {
+namespace JHipsterNetSampleApplication.Controllers {
     [Authorize]
     [Route("api")]
     [ApiController]
-    public class LabelResource : ControllerBase {
+    public class LabelController : ControllerBase {
         private const string EntityName = "label";
 
         private readonly ApplicationDatabaseContext _applicationDatabaseContext;
 
-        private readonly ILogger<LabelResource> _log;
+        private readonly ILogger<LabelController> _log;
 
-        public LabelResource(ILogger<LabelResource> log,
+        public LabelController(ILogger<LabelController> log,
             ApplicationDatabaseContext applicationDatabaseContext)
         {
             _log = log;

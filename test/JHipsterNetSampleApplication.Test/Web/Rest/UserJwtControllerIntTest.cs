@@ -1,14 +1,14 @@
+using FluentAssertions;
+using FluentAssertions.Json;
+using JHipsterNetSampleApplication.Models;
+using JHipsterNetSampleApplication.Models.Vm;
+using JHipsterNetSampleApplication.Test.Setup;
+using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using FluentAssertions;
-using FluentAssertions.Json;
-using JHipsterNetSampleApplication.Models;
-using JHipsterNetSampleApplication.Test.Setup;
-using JHipsterNetSampleApplication.Web.Rest.Vm;
-using Microsoft.AspNetCore.Identity;
-using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace JHipsterNetSampleApplication.Test.Web.Rest {

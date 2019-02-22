@@ -15,16 +15,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace JHipsterNetSampleApplication.Web.Rest {
+namespace JHipsterNetSampleApplication.Controllers {
     [Route("api")]
     [ApiController]
-    public class UserResource : ControllerBase {
+    public class UserController : ControllerBase {
         private readonly ILogger<UserJwtController> _log;
         private readonly IMailService _mailService;
         private readonly UserManager<User> _userManager;
         private readonly IUserService _userService;
 
-        public UserResource(ILogger<UserJwtController> log, UserManager<User> userManager, IUserService userService,
+        public UserController(ILogger<UserJwtController> log, UserManager<User> userManager, IUserService userService,
             IMailService mailService)
         {
             _log = log;

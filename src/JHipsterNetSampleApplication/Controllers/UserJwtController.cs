@@ -1,15 +1,15 @@
-using System.Threading.Tasks;
+using JHipsterNetSampleApplication.Models.Vm;
 using JHipsterNetSampleApplication.Security.Jwt;
 using JHipsterNetSampleApplication.Service;
 using JHipsterNetSampleApplication.Web.Extensions;
 using JHipsterNetSampleApplication.Web.Filters;
-using JHipsterNetSampleApplication.Web.Rest.Vm;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
-namespace JHipsterNetSampleApplication.Web.Rest {
+namespace JHipsterNetSampleApplication.Controllers {
     [Route("api")]
     [ApiController]
     public class UserJwtController : ControllerBase {

@@ -1,17 +1,17 @@
+using FluentAssertions;
+using JHipsterNetSampleApplication.Models;
+using JHipsterNetSampleApplication.Models.Vm;
+using JHipsterNetSampleApplication.Security;
+using JHipsterNetSampleApplication.Service.Dto;
+using JHipsterNetSampleApplication.Service.Mapper;
+using JHipsterNetSampleApplication.Test.Setup;
+using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using FluentAssertions;
-using JHipsterNetSampleApplication.Models;
-using JHipsterNetSampleApplication.Security;
-using JHipsterNetSampleApplication.Service.Dto;
-using JHipsterNetSampleApplication.Service.Mapper;
-using JHipsterNetSampleApplication.Test.Setup;
-using JHipsterNetSampleApplication.Web.Rest.Vm;
-using Microsoft.AspNetCore.Identity;
-using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace JHipsterNetSampleApplication.Test.Web.Rest {

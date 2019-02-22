@@ -14,18 +14,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace JHipsterNetSampleApplication.Web.Rest {
+namespace JHipsterNetSampleApplication.Controllers {
     [Authorize]
     [Route("api")]
     [ApiController]
-    public class BankAccountResource : ControllerBase {
+    public class BankAccountController : ControllerBase {
         private const string EntityName = "bankAccount";
 
         private readonly ApplicationDatabaseContext _applicationDatabaseContext;
 
-        private readonly ILogger<BankAccountResource> _log;
+        private readonly ILogger<BankAccountController> _log;
 
-        public BankAccountResource(ILogger<BankAccountResource> log,
+        public BankAccountController(ILogger<BankAccountController> log,
             ApplicationDatabaseContext applicationDatabaseContext)
         {
             _log = log;
