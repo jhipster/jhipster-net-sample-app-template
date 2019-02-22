@@ -11,12 +11,12 @@ const parseString = require('xml2js').parseString;
 // return the version number from `pom.xml` file
 function parseVersion() {
     let version = null;
-    const projectFile = fs.readFileSync('../NhipsterSampleApplication.csproj', 'utf8');
+    const projectFile = fs.readFileSync('../JHipsterNetSampleApplication.csproj', 'utf8');
     parseString(projectFile, (err, result) => {
         if (err) {
             throw new Error('Failed to parse NhipsterSampleApplication.csproj: ' + err);
         }
-        if (result.Project.PropertyGroup && result.Project.PropertyGroup[0] && result.Project.PropertyGroup[0].Version;) {
+        if (result.Project.PropertyGroup && result.Project.PropertyGroup[0] && result.Project.PropertyGroup[0].Version) {
             version = result.Project.PropertyGroup[0].Version
         }
 })
