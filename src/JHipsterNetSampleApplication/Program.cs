@@ -13,10 +13,10 @@ namespace JHipsterNetSampleApplication {
         {
             try {
 
-                ConfigureLogger();
+                Log.Logger = CreateLogger();
 
-                Log.Information($"Starting web host");
                 CreateWebHostBuilder(args).Build().Run();
+
                 return 0;
 
             }
@@ -31,8 +31,6 @@ namespace JHipsterNetSampleApplication {
                 Log.CloseAndFlush();
 
             }
-
-
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(params string[] args)
@@ -43,33 +41,38 @@ namespace JHipsterNetSampleApplication {
         }
 
         /// <summary>
+        /// Create application logger from configuration.
+        /// </summary>
+        /// <returns></returns>
+        private static ILogger CreateLogger()
+        {
+            var appConfiguration = GetAppConfiguration();
+
+            // for logger configuration
+            // https://github.com/serilog/serilog-settings-configuration
+            var loggerConfiguration = new LoggerConfiguration().ReadFrom.Configuration(appConfiguration);
+
+            return loggerConfiguration.CreateLogger();
+        }
+
+        /// <summary>
         /// Gets the current application configuration
         /// from global and specific appsettings.
         /// </summary>
-        /// <returns>Return the current <see cref="IConfiguration"/></returns>
+        /// <returns>Return the application <see cref="IConfiguration"/></returns>
         private static IConfiguration GetAppConfiguration()
         {
+            // Actually, before ASP.NET bootstrap, we must rely on environment variable to get environment name
+            // https://docs.microsoft.com/fr-fr/aspnet/core/fundamentals/environments?view=aspnetcore-2.2
+            // Pay attention to casing for Linux environment. By default it's pascal case.
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
             return new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{environment}.json", true)
+                .AddEnvironmentVariables()
                 .Build();
-        }
-
-        /// <summary>
-        /// Configure application logger
-        /// </summary>
-        /// <returns></returns>
-        private static ILogger ConfigureLogger()
-        {
-            var appConfiguration = GetAppConfiguration();
-
-            var loggerConfiguration = new LoggerConfiguration()
-                .ReadFrom.Configuration(appConfiguration);
-
-            return Log.Logger = loggerConfiguration.CreateLogger();
         }
     }
 }
