@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Serilog;
 using System;
 using System.IO;
+using JHipsterNet.Logging;
 using ILogger = Serilog.ILogger;
 
 namespace JHipsterNetSampleApplication {
@@ -21,8 +22,8 @@ namespace JHipsterNetSampleApplication {
 
             }
             catch (Exception ex) {
-
-                Log.Fatal(ex, $"Host terminated unexpectedly");
+                // Use ForContext to give a context to this static environment (for Serilog LoggerNameEnricher).
+                Log.ForContext<Program>().Fatal(ex, $"Host terminated unexpectedly");
                 return 1;
 
             }
@@ -50,7 +51,9 @@ namespace JHipsterNetSampleApplication {
 
             // for logger configuration
             // https://github.com/serilog/serilog-settings-configuration
-            var loggerConfiguration = new LoggerConfiguration().ReadFrom.Configuration(appConfiguration);
+            var loggerConfiguration = new LoggerConfiguration()
+                .Enrich.With<LoggerNameEnricher>()
+                .ReadFrom.Configuration(appConfiguration);
 
             return loggerConfiguration.CreateLogger();
         }
