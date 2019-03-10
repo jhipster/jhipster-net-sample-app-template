@@ -55,7 +55,7 @@ namespace JHipsterNetSampleApplication.Controllers {
         public string IsAuthenticated()
         {
             _log.LogDebug("REST request to check if the current user is authenticated");
-            return User?.Identity.Name;
+            return _userManager.GetUserName(User);
         }
 
         [HttpGet("account")]
@@ -71,7 +71,7 @@ namespace JHipsterNetSampleApplication.Controllers {
         [ValidateModel]
         public async Task<ActionResult> SaveAccount([FromBody] UserDto userDto)
         {
-            var userName = User.Identity.Name;
+            var userName = _userManager.GetUserName(User);
             if (userName == null) throw new InternalServerErrorException("Current user login not found");
 
             var existingUser = await _userManager.FindByEmailAsync(userDto.Email);

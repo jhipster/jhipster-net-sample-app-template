@@ -11,19 +11,42 @@ using JHipsterNetSampleApplication.Service.Mapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using AuthenticationService = JHipsterNetSampleApplication.Service.AuthenticationService;
 using IAuthenticationService = JHipsterNetSampleApplication.Service.IAuthenticationService;
 
 namespace JHipsterNetSampleApplication.Infrastructure {
-    public static class SecurityConfiguration {
+    public static class SecurityStartup {
+
+        public const string UserNameClaimType = JwtRegisteredClaimNames.Sub;
+
         public static IServiceCollection AddSecurityModule(this IServiceCollection @this)
         {
-            @this.AddIdentity<User, Role>(options => { options.SignIn.RequireConfirmedEmail = true; })
+
+            //TODO Retrieve the signing key properly (DRY with TokenProvider)
+            var opt = @this.BuildServiceProvider().GetRequiredService<IOptions<JHipsterSettings>>();
+            var jhipsterSettings = opt.Value;
+            byte[] keyBytes;
+            var secret = jhipsterSettings.Security.Authentication.Jwt.Secret;
+
+            if (!string.IsNullOrWhiteSpace(secret)) {
+                keyBytes = Encoding.ASCII.GetBytes(secret);
+            }
+            else {
+                keyBytes = Convert.FromBase64String(jhipsterSettings.Security.Authentication.Jwt.Base64Secret);
+            }
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
+
+            @this.AddIdentity<User, Role>(options => {
+                    options.SignIn.RequireConfirmedEmail = true;
+                    options.ClaimsIdentity.UserNameClaimType = UserNameClaimType;
+                })
                 .AddEntityFrameworkStores<ApplicationDatabaseContext>()
                 .AddUserStore<UserStore<User, Role, ApplicationDatabaseContext, string, IdentityUserClaim<string>,
                     UserRole, IdentityUserLogin<string>, IdentityUserToken<string>, IdentityRoleClaim<string>>>()
@@ -31,7 +54,6 @@ namespace JHipsterNetSampleApplication.Infrastructure {
                 >()
                 .AddDefaultTokenProviders();
 
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
             @this
                 .AddAuthentication(options => {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -44,10 +66,9 @@ namespace JHipsterNetSampleApplication.Infrastructure {
                     cfg.TokenValidationParameters = new TokenValidationParameters {
                         ValidateIssuer = false,
                         ValidateAudience = false,
-                        IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(
-                                "my-secret-key-which-should-be-changed-in-production-and-be-base64-encoded")),
-                        ClockSkew = TimeSpan.Zero // remove delay of token when expire
+                        IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
+                        ClockSkew = TimeSpan.Zero,/// remove delay of token when expire
+                        NameClaimType = UserNameClaimType
                     };
                 });
 
@@ -56,7 +77,6 @@ namespace JHipsterNetSampleApplication.Infrastructure {
             @this.AddScoped<IUserService, UserService>();
             @this.AddScoped<UserMapper>();
             @this.AddScoped<IPasswordHasher<User>, BCryptPasswordHasher>();
-            @this.AddScoped<JHipsterSettings, JHipsterSettings>();
             @this.AddScoped<IClaimsTransformation, RoleClaimsTransformation>();
             @this.AddScoped<IPasswordHasher<User>, BCryptPasswordHasher>();
             @this.AddSingleton<IMailService, MailService>();
@@ -65,13 +85,33 @@ namespace JHipsterNetSampleApplication.Infrastructure {
         }
 
         public static IApplicationBuilder UseApplicationSecurity(this IApplicationBuilder @this,
-            IHostingEnvironment env)
+            JHipsterSettings jhipsterSettings)
         {
+            @this.UseCors(CorsPolicyBuilder(jhipsterSettings.Cors));
             @this.UseAuthentication();
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             @this.UseHsts();
             @this.UseHttpsRedirection();
             return @this;
+        }
+
+        private static Action<CorsPolicyBuilder> CorsPolicyBuilder(Cors config)
+        {
+            //TODO implement an url based cors policy rather than global or per controller
+            return builder => {
+                if (config.AllowCredentials) {
+                    builder.AllowCredentials();
+                }
+                else {
+                    builder.DisallowCredentials();
+                }
+
+                builder.WithOrigins(config.AllowedOrigins)
+                    .WithMethods(config.AllowedMethods)
+                    .WithHeaders(config.AllowedHeaders)
+                    .WithExposedHeaders(config.ExposedHeaders)
+                    .SetPreflightMaxAge(TimeSpan.FromSeconds(config.MaxAge));
+            };
         }
     }
 }

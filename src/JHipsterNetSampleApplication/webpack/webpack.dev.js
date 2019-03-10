@@ -16,7 +16,7 @@ const ENV = 'development';
 module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
     devtool: 'eval-source-map',
     devServer: {
-        contentBase: '../bin/www',
+        contentBase: './wwwroot',
         proxy: [{
             context: [
                 /* jhipster-needle-add-entity-to-webpack - JHipster will add entity api paths here */
@@ -38,12 +38,12 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
         }
     },
     entry: {
-        polyfills: './app/polyfills',
-        global: './content/css/global.css',
-        main: './app/app.main'
+        polyfills: './ClientApp/app/polyfills',
+        global: './ClientApp/content/css/global.css',
+        main: './ClientApp/app/app.main'
     },
     output: {
-        path: utils.root('bin/www'),
+        path: utils.root('wwwroot'),
         filename: 'app/[name].bundle.js',
         chunkFilename: 'app/[id].chunk.js'
     },
@@ -117,7 +117,7 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
         }),
         new webpack.ContextReplacementPlugin(
             /angular(\\|\/)core(\\|\/)/,
-            path.resolve(__dirname, './app')
+            path.resolve(__dirname, './ClientApp')
         ),
         new writeFilePlugin(),
         new webpack.WatchIgnorePlugin([

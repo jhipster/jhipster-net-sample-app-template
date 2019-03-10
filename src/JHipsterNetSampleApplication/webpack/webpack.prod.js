@@ -19,12 +19,12 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
     // You have to enable it in UglifyJSPlugin config below and in tsconfig-aot.json as well
     // devtool: 'source-map',
     entry: {
-        polyfills: './app/polyfills',
-        global: './content/css/global.css',
-        main: './app/app.main'
+        polyfills: './ClientApp/app/polyfills',
+        global: './ClientApp/content/css/global.css',
+        main: './ClientApp/app/app.main'
     },
     output: {
-        path: utils.root('dist'),
+        path: utils.root('wwwroot'),
         filename: 'app/[name].[hash].bundle.js',
         chunkFilename: 'app/[id].[hash].chunk.js'
     },
@@ -107,7 +107,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
             filename: 'stats.html'
         }),
         new AngularCompilerPlugin({
-            mainPath: utils.root('app/app.main.ts'),
+            mainPath: utils.root('ClientApp/app/app.main.ts'),
             tsConfigPath: utils.root('tsconfig-aot.json'),
             sourceMap: true
         }),

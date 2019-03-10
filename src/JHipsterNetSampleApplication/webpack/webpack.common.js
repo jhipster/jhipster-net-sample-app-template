@@ -11,7 +11,7 @@ module.exports = (options) => ({
         extensions: ['.ts', '.js'],
         modules: ['node_modules'],
         alias: {
-            app: utils.root('app/'),
+            app: utils.root('ClientApp/app/'),
             ...rxPaths()
         }
     },
@@ -30,7 +30,7 @@ module.exports = (options) => ({
                     minifyJS:false,
                     minifyCSS:false
                 },
-                exclude: /(index.html)/
+                exclude: /(ClientApp\/app\/index.html)/
             },
             {
                 test: /\.(jpe?g|png|gif|svg|woff2?|ttf|eot)$/i,
@@ -70,23 +70,23 @@ module.exports = (options) => ({
             { from: './node_modules/swagger-ui/dist/css', to: 'swagger-ui/dist/css' },
             { from: './node_modules/swagger-ui/dist/lib', to: 'swagger-ui/dist/lib' },
             { from: './node_modules/swagger-ui/dist/swagger-ui.min.js', to: 'swagger-ui/dist/swagger-ui.min.js' },
-            { from: './swagger-ui/', to: 'swagger-ui' },
-            { from: './content/', to: 'content' },
-            { from: './favicon.ico', to: 'favicon.ico' },
-            { from: './manifest.webapp', to: 'manifest.webapp' },
+            { from: './ClientApp/swagger-ui/', to: 'swagger-ui' },
+            { from: './ClientApp/content/', to: 'content' },
+            { from: './ClientApp/favicon.ico', to: 'favicon.ico' },
+            { from: './ClientApp/manifest.webapp', to: 'manifest.webapp' },
             // jhipster-needle-add-assets-to-webpack - JHipster will add/remove third-party resources in this array
-            { from: './robots.txt', to: 'robots.txt' }
+            { from: './ClientApp/robots.txt', to: 'robots.txt' }
         ]),
         new MergeJsonWebpackPlugin({
             output: {
                 groupBy: [
-                    { pattern: "./i18n/en/*.json", fileName: "./i18n/en.json" }
+                    { pattern: "./ClientApp/i18n/en/*.json", fileName: "./i18n/en.json" }
                     // jhipster-needle-i18n-language-webpack - JHipster will add/remove languages in this array
                 ]
             }
         }),
         new HtmlWebpackPlugin({
-            template: './index.html',
+            template: './ClientApp/index.html',
             chunks: ['vendors', 'polyfills', 'main', 'global'],
             chunksSortMode: 'manual',
             inject: 'body'

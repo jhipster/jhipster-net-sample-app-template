@@ -1,23 +1,34 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { JhiLanguageService } from 'ng-jhipster';
+import { JhiLanguageHelper } from 'app/core';
 
-import { NhipsterSampleApplicationSharedModule } from 'app/shared';
+import { JhipsterNetSampleApplicationSharedModule } from 'app/shared';
 import {
-  LabelComponent,
-  LabelDetailComponent,
-  LabelUpdateComponent,
-  LabelDeletePopupComponent,
-  LabelDeleteDialogComponent,
-  labelRoute,
-  labelPopupRoute
+    LabelComponent,
+    LabelDetailComponent,
+    LabelUpdateComponent,
+    LabelDeletePopupComponent,
+    LabelDeleteDialogComponent,
+    labelRoute,
+    labelPopupRoute
 } from './';
 
 const ENTITY_STATES = [...labelRoute, ...labelPopupRoute];
 
 @NgModule({
-  imports: [NhipsterSampleApplicationSharedModule, RouterModule.forChild(ENTITY_STATES)],
-  declarations: [LabelComponent, LabelDetailComponent, LabelUpdateComponent, LabelDeleteDialogComponent, LabelDeletePopupComponent],
-  entryComponents: [LabelComponent, LabelUpdateComponent, LabelDeleteDialogComponent, LabelDeletePopupComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    imports: [JhipsterNetSampleApplicationSharedModule, RouterModule.forChild(ENTITY_STATES)],
+    declarations: [LabelComponent, LabelDetailComponent, LabelUpdateComponent, LabelDeleteDialogComponent, LabelDeletePopupComponent],
+    entryComponents: [LabelComponent, LabelUpdateComponent, LabelDeleteDialogComponent, LabelDeletePopupComponent],
+    providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class NhipsterSampleApplicationLabelModule {}
+export class JhipsterNetSampleApplicationLabelModule {
+    constructor(private languageService: JhiLanguageService, private languageHelper: JhiLanguageHelper) {
+        this.languageHelper.language.subscribe((languageKey: string) => {
+            if (languageKey !== undefined) {
+                this.languageService.changeLanguage(languageKey);
+            }
+        });
+    }
+}

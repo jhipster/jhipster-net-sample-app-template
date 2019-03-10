@@ -1,9 +1,9 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="nhipsterSampleApplicationApp.label.home.title">Labels</span>
+        <span jhiTranslate="JhipsterNetSampleApplicationApp.label.home.title">Labels</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-label" [routerLink]="['/label/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="nhipsterSampleApplicationApp.label.home.createLabel">
+            <span  jhiTranslate="JhipsterNetSampleApplicationApp.label.home.createLabel">
             Create new Label
             </span>
         </button>
@@ -15,7 +15,7 @@
             <thead>
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="nhipsterSampleApplicationApp.label.label">Label</span></th>
+            <th><span jhiTranslate="JhipsterNetSampleApplicationApp.label.label">Label</span></th>
             <th></th>
             </tr>
             </thead>
@@ -38,7 +38,7 @@
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'label/'+ label.id + '/delete'} }]"
+                                [routerLink]="['/', 'label', { outlets: { popup: label.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
