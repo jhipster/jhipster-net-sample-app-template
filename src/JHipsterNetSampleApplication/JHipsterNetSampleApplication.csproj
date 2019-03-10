@@ -55,8 +55,7 @@
         <Exec Command="npm install" />
     </Target>
 
-
-    <Target Name="RunWebPack" BeforeTargets="Run" DependsOnTargets="NpmInstall" >
+    <Target Name="RunWebPack" BeforeTargets="Build" DependsOnTargets="NpmInstall" >
         <Exec Command="npm run webpack:build" Condition="'$(Configuration)'=='Debug'"/>
         <Exec Command="npm run webpack:prod" Condition="'$(Configuration)'=='Release'"/>
     </Target>
