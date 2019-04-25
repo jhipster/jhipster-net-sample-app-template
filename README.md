@@ -20,7 +20,7 @@ The development rules are:
 The app is the `C#/.Net Core` translation of the [JHipster Sample App](https://github.com/jhipster/jhipster-sample-app). 
 
 The development rules are:
-1. Stay aligned with [JHipster polivies](https://www.jhipster.tech/policies/) (use default configuration, use explicit versions, etc.)
+1. Stay aligned with [JHipster policies](https://www.jhipster.tech/policies/) (use default configuration, use explicit versions, etc.)
 2. Follow C#/.Net Core conventions (casing, namespaces names, DI, etc.)
 3. Be explicit and do not use dark magic (weird reflection, assembly scanning etc). 
 
