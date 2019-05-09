@@ -11,17 +11,17 @@ const parseString = require('xml2js').parseString;
 // return the version number from `pom.xml` file
 function parseVersion() {
     let version = null;
-    const projectFile = fs.readFileSync('JhipsterNetSampleApplication.csproj', 'utf8');
+    const projectFile = fs.readFileSync('JHipsterNetSampleApplication.csproj', 'utf8');
     parseString(projectFile, (err, result) => {
         if (err) {
-            throw new Error('Failed to parse JhipsterNetSampleApplication.csproj: ' + err);
+            throw new Error('Failed to parse JHipsterNetSampleApplication.csproj: ' + err);
         }
         if (result.Project.PropertyGroup && result.Project.PropertyGroup[0] && result.Project.PropertyGroup[0].Version) {
             version = result.Project.PropertyGroup[0].Version
         }
 })
     if (version === null) {
-        throw new Error('JhipsterNetSampleApplication.csproj is malformed. No version is defined');
+        throw new Error('JHipsterNetSampleApplication.csproj is malformed. No version is defined');
     }
     return version;
 }
