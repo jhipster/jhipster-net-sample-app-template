@@ -49,22 +49,6 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
         }
 
         [Fact]
-        public async Task CheckBalanceIsRequired()
-        {
-            var databaseSizeBeforeTest = _applicationDatabaseContext.BankAccounts.Count();
-
-            // set the field null
-            _bankAccount.Balance = null;
-
-            // Create the BankAccount, which fails.
-            var response = await _client.PostAsync("/api/bank-accounts", TestUtil.ToJsonContent(_bankAccount));
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
-            var bankAccountList = _applicationDatabaseContext.BankAccounts.ToList();
-            bankAccountList.Count().Should().Be(databaseSizeBeforeTest);
-        }
-
-        [Fact]
         public async Task CheckNameIsRequired()
         {
             var databaseSizeBeforeTest = _applicationDatabaseContext.BankAccounts.Count();
@@ -103,7 +87,7 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
             var databaseSizeBeforeCreate = _applicationDatabaseContext.BankAccounts.Count();
             databaseSizeBeforeCreate.Should().Be(0);
             // Create the BankAccount with an existing ID
-            _bankAccount.Id = "id";
+            _bankAccount.Id = 1L;
 
             // An entity with an existing ID cannot be created, so this API call must fail
             var response = await _client.PostAsync("/api/bank-accounts", TestUtil.ToJsonContent(_bankAccount));
@@ -112,6 +96,30 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
             // Validate the BankAccount in the database
             var bankAccountList = _applicationDatabaseContext.BankAccounts.ToList();
             bankAccountList.Count().Should().Be(databaseSizeBeforeCreate);
+        }
+
+        [Fact]
+        public async Task CreateBankAccountWithExistingReferencedEntity()
+        {
+            // Get a User to referenced
+            var user = _applicationDatabaseContext.Users.ToList()[0];
+
+            var databaseSizeBeforeCreate = _applicationDatabaseContext.BankAccounts.Count();
+
+            // Set the referencing field
+            _bankAccount.User = user;
+
+            // Create the BankAccount
+            var response = await _client.PostAsync("/api/bank-accounts", TestUtil.ToJsonContent(_bankAccount));
+            response.StatusCode.Should().Be(HttpStatusCode.Created);
+
+            // Validate the BankAccount in the database
+            var bankAccountList = _applicationDatabaseContext.BankAccounts.ToList();
+            bankAccountList.Count().Should().Be(databaseSizeBeforeCreate + 1);
+            var testBankAccount = bankAccountList[bankAccountList.Count - 1];
+            testBankAccount.Name.Should().Be(DefaultName);
+            testBankAccount.Balance.Should().Be(DefaultBalance);
+            testBankAccount.User.Should().Be(user);
         }
 
         [Fact]
@@ -185,7 +193,7 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
         [Fact]
         public async Task GetNonExistingBankAccount()
         {
-            var response = await _client.GetAsync("/api/bank-accounts/unknown");
+            var response = await _client.GetAsync("/api/bank-accounts/" + long.MaxValue);
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 

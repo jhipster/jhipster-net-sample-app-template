@@ -36,13 +36,13 @@ namespace JHipsterNetSampleApplication.Controllers {
         public async Task<ActionResult<Operation>> CreateOperation([FromBody] Operation operation)
         {
             _log.LogDebug($"REST request to save Operation : {operation}");
-            if (operation.Id != null)
+            if (operation.Id != 0)
                 throw new BadRequestAlertException("A new operation cannot already have an ID", EntityName, "idexists");
 
-            _applicationDatabaseContext.Operations.Add(operation);
+            _applicationDatabaseContext.AddGraph(operation);
             await _applicationDatabaseContext.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetOperation), new {id = operation.Id}, operation)
-                .WithHeaders(HeaderUtil.CreateEntityCreationAlert(EntityName, operation.Id));
+            return CreatedAtAction(nameof(GetOperation), new { id = operation.Id }, operation)
+                .WithHeaders(HeaderUtil.CreateEntityCreationAlert(EntityName, operation.Id.ToString()));
         }
 
         [HttpPut("operations")]
@@ -50,11 +50,11 @@ namespace JHipsterNetSampleApplication.Controllers {
         public async Task<IActionResult> UpdateOperation([FromBody] Operation operation)
         {
             _log.LogDebug($"REST request to update Operation : {operation}");
-            if (operation.Id == null) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
+            if (operation.Id == 0) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
             //TODO catch //DbUpdateConcurrencyException into problem
             _applicationDatabaseContext.Entry(operation).State = EntityState.Modified;
             await _applicationDatabaseContext.SaveChangesAsync();
-            return Ok(operation).WithHeaders(HeaderUtil.CreateEntityUpdateAlert(EntityName, operation.Id));
+            return Ok(operation).WithHeaders(HeaderUtil.CreateEntityUpdateAlert(EntityName, operation.Id.ToString()));
         }
 
         [HttpGet("operations")]
@@ -67,7 +67,7 @@ namespace JHipsterNetSampleApplication.Controllers {
         }
 
         [HttpGet("operations/{id}")]
-        public async Task<IActionResult> GetOperation([FromRoute] string id)
+        public async Task<IActionResult> GetOperation([FromRoute] long id)
         {
             _log.LogDebug($"REST request to get Operation : {id}");
             var result =
@@ -76,12 +76,12 @@ namespace JHipsterNetSampleApplication.Controllers {
         }
 
         [HttpDelete("operations/{id}")]
-        public async Task<IActionResult> DeleteOperation([FromRoute] string id)
+        public async Task<IActionResult> DeleteOperation([FromRoute] long id)
         {
             _log.LogDebug($"REST request to delete Operation : {id}");
             _applicationDatabaseContext.Operations.RemoveById(id);
             await _applicationDatabaseContext.SaveChangesAsync();
-            return Ok().WithHeaders(HeaderUtil.CreateEntityDeletionAlert(EntityName, id));
+            return Ok().WithHeaders(HeaderUtil.CreateEntityDeletionAlert(EntityName, id.ToString()));
         }
     }
 }

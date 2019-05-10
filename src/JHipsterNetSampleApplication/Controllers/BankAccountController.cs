@@ -37,14 +37,14 @@ namespace JHipsterNetSampleApplication.Controllers {
         public async Task<ActionResult<BankAccount>> CreateBankAccount([FromBody] BankAccount bankAccount)
         {
             _log.LogDebug($"REST request to save BankAccount : {bankAccount}");
-            if (bankAccount.Id != null)
+            if (bankAccount.Id != 0)
                 throw new BadRequestAlertException("A new bankAccount cannot already have an ID", EntityName,
                     "idexists");
 
-            _applicationDatabaseContext.BankAccounts.Add(bankAccount);
+            _applicationDatabaseContext.AddGraph(bankAccount);
             await _applicationDatabaseContext.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetBankAccount), new {id = bankAccount.Id}, bankAccount)
-                .WithHeaders(HeaderUtil.CreateEntityCreationAlert(EntityName, bankAccount.Id));
+            return CreatedAtAction(nameof(GetBankAccount), new { id = bankAccount.Id }, bankAccount)
+                    .WithHeaders(HeaderUtil.CreateEntityCreationAlert(EntityName, bankAccount.Id.ToString()));
         }
 
         [HttpPut("bank-accounts")]
@@ -52,12 +52,12 @@ namespace JHipsterNetSampleApplication.Controllers {
         public async Task<IActionResult> UpdateBankAccount([FromBody] BankAccount bankAccount)
         {
             _log.LogDebug($"REST request to update BankAccount : {bankAccount}");
-            if (bankAccount.Id == null) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
+            if (bankAccount.Id == 0) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
             //TODO catch //DbUpdateConcurrencyException into problem
             _applicationDatabaseContext.Entry(bankAccount).State = EntityState.Modified;
             await _applicationDatabaseContext.SaveChangesAsync();
             return Ok(bankAccount)
-                .WithHeaders(HeaderUtil.CreateEntityUpdateAlert(EntityName, bankAccount.Id));
+                .WithHeaders(HeaderUtil.CreateEntityUpdateAlert(EntityName, bankAccount.Id.ToString()));
         }
 
         [HttpGet("bank-accounts")]
@@ -70,7 +70,7 @@ namespace JHipsterNetSampleApplication.Controllers {
         }
 
         [HttpGet("bank-accounts/{id}")]
-        public async Task<IActionResult> GetBankAccount([FromRoute] string id)
+        public async Task<IActionResult> GetBankAccount([FromRoute] long id)
         {
             _log.LogDebug($"REST request to get BankAccount : {id}");
             var result =
@@ -80,12 +80,12 @@ namespace JHipsterNetSampleApplication.Controllers {
         }
 
         [HttpDelete("bank-accounts/{id}")]
-        public async Task<IActionResult> DeleteBankAccount([FromRoute] string id)
+        public async Task<IActionResult> DeleteBankAccount([FromRoute] long id)
         {
             _log.LogDebug($"REST request to delete BankAccount : {id}");
             _applicationDatabaseContext.BankAccounts.RemoveById(id);
             await _applicationDatabaseContext.SaveChangesAsync();
-            return Ok().WithHeaders(HeaderUtil.CreateEntityDeletionAlert(EntityName, id));
+            return Ok().WithHeaders(HeaderUtil.CreateEntityDeletionAlert(EntityName, id.ToString()));
         }
     }
 }

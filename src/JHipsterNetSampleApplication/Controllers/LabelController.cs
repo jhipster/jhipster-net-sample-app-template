@@ -37,14 +37,14 @@ namespace JHipsterNetSampleApplication.Controllers {
         public async Task<ActionResult<Label>> CreateLabel([FromBody] Label label)
         {
             _log.LogDebug($"REST request to save Label : {label}");
-            if (label.Id != null)
+            if (label.Id != 0)
                 throw new BadRequestAlertException("A new label cannot already have an ID", EntityName,
                     "idexists");
 
             _applicationDatabaseContext.Labels.Add(label);
             await _applicationDatabaseContext.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetLabel), new {id = label.Id}, label)
-                .WithHeaders(HeaderUtil.CreateEntityCreationAlert(EntityName, label.Id));
+            return CreatedAtAction(nameof(GetLabel), new { id = label.Id }, label)
+                .WithHeaders(HeaderUtil.CreateEntityCreationAlert(EntityName, label.Id.ToString()));
         }
 
         [HttpPut("labels")]
@@ -52,12 +52,12 @@ namespace JHipsterNetSampleApplication.Controllers {
         public async Task<IActionResult> UpdateLabel([FromBody] Label label)
         {
             _log.LogDebug($"REST request to update Label : {label}");
-            if (label.Id == null) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
+            if (label.Id == 0) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
             //TODO catch //DbUpdateConcurrencyException into problem
             _applicationDatabaseContext.Entry(label).State = EntityState.Modified;
             await _applicationDatabaseContext.SaveChangesAsync();
             return Ok(label)
-                .WithHeaders(HeaderUtil.CreateEntityUpdateAlert(EntityName, label.Id));
+                .WithHeaders(HeaderUtil.CreateEntityUpdateAlert(EntityName, label.Id.ToString()));
         }
 
         [HttpGet("labels")]
@@ -70,7 +70,7 @@ namespace JHipsterNetSampleApplication.Controllers {
         }
 
         [HttpGet("labels/{id}")]
-        public async Task<IActionResult> GetLabel([FromRoute] string id)
+        public async Task<IActionResult> GetLabel([FromRoute] long id)
         {
             _log.LogDebug($"REST request to get Label : {id}");
             var result =
@@ -80,12 +80,12 @@ namespace JHipsterNetSampleApplication.Controllers {
         }
 
         [HttpDelete("labels/{id}")]
-        public async Task<IActionResult> DeleteLabel([FromRoute] string id)
+        public async Task<IActionResult> DeleteLabel([FromRoute] long id)
         {
             _log.LogDebug($"REST request to delete Label : {id}");
             _applicationDatabaseContext.Labels.RemoveById(id);
             await _applicationDatabaseContext.SaveChangesAsync();
-            return Ok().WithHeaders(HeaderUtil.CreateEntityDeletionAlert(EntityName, id));
+            return Ok().WithHeaders(HeaderUtil.CreateEntityDeletionAlert(EntityName, id.ToString()));
         }
     }
 }

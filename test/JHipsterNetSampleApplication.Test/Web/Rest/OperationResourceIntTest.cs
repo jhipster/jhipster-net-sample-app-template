@@ -55,38 +55,6 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
         }
 
         [Fact]
-        public async Task CheckAmountIsRequired()
-        {
-            var databaseSizeBeforeTest = _applicationDatabaseContext.Operations.Count();
-
-            // set the field null
-            _operation.Amount = null;
-
-            // Create the Operation, which fails.
-            var response = await _client.PostAsync("/api/operations", TestUtil.ToJsonContent(_operation));
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
-            var operationList = _applicationDatabaseContext.Operations.ToList();
-            operationList.Count().Should().Be(databaseSizeBeforeTest);
-        }
-
-        [Fact]
-        public async Task CheckDateIsRequired()
-        {
-            var databaseSizeBeforeTest = _applicationDatabaseContext.Operations.Count();
-
-            // set the field null
-            _operation.Date = null;
-
-            // Create the Operation, which fails.
-            var response = await _client.PostAsync("/api/operations", TestUtil.ToJsonContent(_operation));
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
-            var operationList = _applicationDatabaseContext.Operations.ToList();
-            operationList.Count().Should().Be(databaseSizeBeforeTest);
-        }
-
-        [Fact]
         public async Task CreateOperation()
         {
             var databaseSizeBeforeCreate = _applicationDatabaseContext.Operations.Count();
@@ -110,7 +78,7 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
             var databaseSizeBeforeCreate = _applicationDatabaseContext.Operations.Count();
 
             // Create the Operation with an existing ID
-            _operation.Id = "id";
+            _operation.Id = 1L;
 
             // An entity with an existing ID cannot be created, so this API call must fail
             var response = await _client.PostAsync("/api/operations", TestUtil.ToJsonContent(_operation));
@@ -119,6 +87,37 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
             // Validate the Operation in the database
             var operationList = _applicationDatabaseContext.Operations.ToList();
             operationList.Count().Should().Be(databaseSizeBeforeCreate);
+        }
+
+        [Fact]
+        public async Task CreateOperationWithExistingReferencedEntity()
+        {
+            // Create a BankAccount to referenced
+            var bankAccount = new BankAccount {
+                Name = "AAAAAAAAAA",
+                Balance = new decimal(1.0)
+            };
+            _applicationDatabaseContext.BankAccounts.Add(bankAccount);
+            await _applicationDatabaseContext.SaveChangesAsync();
+            bankAccount = _applicationDatabaseContext.BankAccounts.ToList()[0];
+
+            var databaseSizeBeforeCreate = _applicationDatabaseContext.Operations.Count();
+
+            // Set the referencing field
+            _operation.BankAccount = bankAccount;
+
+            // Create the Operation
+            var response = await _client.PostAsync("/api/operations", TestUtil.ToJsonContent(_operation));
+            response.StatusCode.Should().Be(HttpStatusCode.Created);
+
+            // Validate the Operation in the database
+            var operationList = _applicationDatabaseContext.Operations.ToList();
+            operationList.Count().Should().Be(databaseSizeBeforeCreate + 1);
+            var testOperation = operationList[operationList.Count - 1];
+            testOperation.Date.Should().Be(DefaultDate);
+            testOperation.Description.Should().Be(DefaultDescription);
+            testOperation.Amount.Should().Be(DefaultAmount);
+            testOperation.BankAccount.Should().Be(bankAccount);
         }
 
         [Fact]
@@ -176,7 +175,7 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
         [Fact]
         public async Task GetNonExistingOperation()
         {
-            var response = await _client.GetAsync("/api/operations/unknown");
+            var response = await _client.GetAsync("/api/operations/" + long.MaxValue);
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
