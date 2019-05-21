@@ -1,10 +1,12 @@
 using System;
 using JHipsterNet.Pagination;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Net.Http.Headers;
 
 namespace JHipsterNetSampleApplication.Web.Rest.Utilities {
     public static class PaginationUtil {
+        private const string _LinkHeaderName = "Link";
+        private const string _XTotalCountHeaderName = "X-Total-Count";
+
         public static IHeaderDictionary GeneratePaginationHttpHeaders<T>(IPage<T> page, HttpRequest request)
             where T : class
         {
@@ -19,7 +21,7 @@ namespace JHipsterNetSampleApplication.Web.Rest.Utilities {
         public static IHeaderDictionary GeneratePaginationHttpHeaders<T>(IPage<T> page, string baseUrl) where T : class
         {
             IHeaderDictionary headers = new HeaderDictionary();
-            headers.Add("X-Total-Count", page.TotalElements.ToString());
+            headers.Add(_XTotalCountHeaderName, page.TotalElements.ToString());
             var link = "";
             if (page.Number + 1 < page.TotalPages)
                 link += $"<{GenerateUri(baseUrl, page.Number + 1, page.Size)}>; rel=\"next\",";
@@ -31,7 +33,7 @@ namespace JHipsterNetSampleApplication.Web.Rest.Utilities {
 
             link += $"<{GenerateUri(baseUrl, lastPage, page.Size)}>; rel=\"last\",";
             link += $"<{GenerateUri(baseUrl, 0, page.Size)}>; rel=\"first\"";
-            headers.Add(HeaderNames.From, link);
+            headers.Add(_LinkHeaderName, link);
 
             return headers;
         }

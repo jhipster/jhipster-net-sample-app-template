@@ -1,3 +1,5 @@
+using JHipsterNetSampleApplication.Models.RelationshipTools;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,8 +13,7 @@ namespace JHipsterNetSampleApplication.Models {
         public long Id { get; set; }
 
         [Required] [Column("nhi_date")] public DateTime Date { get; set; }
-
-
+        
         [Column("description")] public string Description { get; set; }
 
         [Required]
@@ -22,7 +23,16 @@ namespace JHipsterNetSampleApplication.Models {
         //        [JsonIgnore]
         public BankAccount BankAccount { get; set; }
 
-        //        public IList<OperationLabel> OperationLabels { get; set; }
+        [JsonIgnore]
+        public IList<OperationLabel> OperationLabels { get; } = new List<OperationLabel>();
+
+        [NotMapped]
+        public IList<Label> Labels { get; }
+
+        public Operation()
+        {
+            Labels = new JoinListFacade<Label, Operation, OperationLabel>(this, OperationLabels);
+        }
 
         public override bool Equals(object obj)
         {

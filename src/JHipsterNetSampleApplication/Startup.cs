@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 [assembly: ApiController]
 
@@ -29,7 +30,12 @@ namespace JHipsterNetSampleApplication {
                 .AddProblemDetailsModule()
                 .AddAutoMapperModule()
                 .AddWebModule()
-                .AddSwaggerModule();
+                .AddSwaggerModule()
+                .AddMvc().AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.Formatting = Formatting.Indented;
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

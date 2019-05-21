@@ -1,6 +1,6 @@
 using System;
 
-namespace JHipsterNetSampleApplication.Models {
+namespace JHipsterNetSampleApplication.Models.Interfaces {
     public interface IAuditedEntityBase {
         string CreatedBy { get; set; }
 

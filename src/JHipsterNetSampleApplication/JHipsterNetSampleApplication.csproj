@@ -55,10 +55,12 @@
         <Exec Command="npm install" />
     </Target>
 
-    <Target Name="RunWebPack" BeforeTargets="Build" DependsOnTargets="NpmInstall" >
-        <Exec Command="npm run webpack:build" Condition="'$(Configuration)'=='Debug'"/>
-        <Exec Command="npm run webpack:prod" Condition="'$(Configuration)'=='Release'"/>
+    <Target Name="RunWebPack" BeforeTargets="Build" DependsOnTargets="NpmInstall">
+        <Exec Command="npm run webpack:build" Condition="'$(Configuration)'=='Debug'" />
+        <Exec Command="npm run webpack:prod" Condition="'$(Configuration)'=='Release'" />
     </Target>
+
+    <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
     <!--<Target Name="PublishRunWebpack" DependsOnTargets="RunWebPack" AfterTargets="ComputeFilesToPublish">-->
     <!--&lt;!&ndash; Include the newly-built files in the publish output &ndash;&gt;-->

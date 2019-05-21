@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using JHipsterNet.Pagination;
 using JHipsterNet.Pagination.Extensions;
@@ -52,7 +53,8 @@ namespace JHipsterNetSampleApplication.Controllers {
             _log.LogDebug($"REST request to update Operation : {operation}");
             if (operation.Id == 0) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
             //TODO catch //DbUpdateConcurrencyException into problem
-            _applicationDatabaseContext.Entry(operation).State = EntityState.Modified;
+            _applicationDatabaseContext.OperationLabels.RemoveNavigationProperty(operation, operation.Id);
+            _applicationDatabaseContext.Update(operation);
             await _applicationDatabaseContext.SaveChangesAsync();
             return Ok(operation).WithHeaders(HeaderUtil.CreateEntityUpdateAlert(EntityName, operation.Id.ToString()));
         }
@@ -61,7 +63,10 @@ namespace JHipsterNetSampleApplication.Controllers {
         public ActionResult<IEnumerable<Operation>> GetAllOperations(IPageable pageable)
         {
             _log.LogDebug("REST request to get a page of Operations");
-            var page = _applicationDatabaseContext.Operations.UsePageable(pageable);
+            var page = _applicationDatabaseContext.Operations
+                .Include(operation => operation.BankAccount)
+                    .ThenInclude(bankAccount => bankAccount.User)
+                .UsePageable(pageable);
             var headers = PaginationUtil.GeneratePaginationHttpHeaders(page, HttpContext.Request);
             return Ok(page.Content).WithHeaders(headers);
         }
@@ -70,8 +75,12 @@ namespace JHipsterNetSampleApplication.Controllers {
         public async Task<IActionResult> GetOperation([FromRoute] long id)
         {
             _log.LogDebug($"REST request to get Operation : {id}");
-            var result =
-                await _applicationDatabaseContext.Operations.SingleOrDefaultAsync(operation => operation.Id == id);
+            var result = await _applicationDatabaseContext.Operations
+                .Include(operation => operation.BankAccount)
+                    .ThenInclude(bankAccount => bankAccount.User)
+                .Include(operation => operation.OperationLabels)
+                    .ThenInclude(operationLabel => operationLabel.Label)
+                .SingleOrDefaultAsync(operation => operation.Id == id);
             return ActionResultUtil.WrapOrNotFound(result);
         }
 

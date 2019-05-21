@@ -54,7 +54,7 @@ namespace JHipsterNetSampleApplication.Controllers {
             _log.LogDebug($"REST request to update BankAccount : {bankAccount}");
             if (bankAccount.Id == 0) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
             //TODO catch //DbUpdateConcurrencyException into problem
-            _applicationDatabaseContext.Entry(bankAccount).State = EntityState.Modified;
+            _applicationDatabaseContext.Update(bankAccount);
             await _applicationDatabaseContext.SaveChangesAsync();
             return Ok(bankAccount)
                 .WithHeaders(HeaderUtil.CreateEntityUpdateAlert(EntityName, bankAccount.Id.ToString()));
@@ -64,7 +64,9 @@ namespace JHipsterNetSampleApplication.Controllers {
         public ActionResult<IEnumerable<BankAccount>> GetAllBankAccounts(IPageable pageable)
         {
             _log.LogDebug("REST request to get a page of BankAccounts");
-            var page = _applicationDatabaseContext.BankAccounts.UsePageable(pageable);
+            var page = _applicationDatabaseContext.BankAccounts
+                .Include(bankAccount => bankAccount.User)
+                .UsePageable(pageable);
             var headers = PaginationUtil.GeneratePaginationHttpHeaders(page, HttpContext.Request);
             return Ok(page.Content).WithHeaders(headers);
         }
@@ -73,9 +75,9 @@ namespace JHipsterNetSampleApplication.Controllers {
         public async Task<IActionResult> GetBankAccount([FromRoute] long id)
         {
             _log.LogDebug($"REST request to get BankAccount : {id}");
-            var result =
-                await _applicationDatabaseContext.BankAccounts.SingleOrDefaultAsync(bankAccount =>
-                    bankAccount.Id == id);
+            var result = await _applicationDatabaseContext.BankAccounts
+                .Include(bankAccount => bankAccount.User)
+                .SingleOrDefaultAsync(bankAccount => bankAccount.Id == id);
             return ActionResultUtil.WrapOrNotFound(result);
         }
 
