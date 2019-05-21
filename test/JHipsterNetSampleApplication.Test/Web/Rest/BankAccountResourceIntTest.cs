@@ -272,6 +272,45 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
         }
 
         [Fact]
+        public async Task UpdateBankAccountWithReferencedEntityToNull()
+        {
+            // Get a User to referenced
+            var user = _applicationDatabaseContext.Users.ToList()[0];
+
+            // Set the referencing field
+            _bankAccount.User = user;
+
+            // Initialize the database with a bankAccount
+            _applicationDatabaseContext.BankAccounts.Add(_bankAccount);
+            await _applicationDatabaseContext.SaveChangesAsync();
+
+            var databaseSizeBeforeUpdate = _applicationDatabaseContext.BankAccounts.Count();
+
+            // Update the bankAccount
+            var updatedBankAccount = await _applicationDatabaseContext.BankAccounts
+                .SingleOrDefaultAsync(it => it.Id == _bankAccount.Id);
+            // Disconnect from session so that the updates on updatedBankAccount are not directly saved in db
+            //TODO detach
+            updatedBankAccount.Name = UpdatedName;
+            updatedBankAccount.Balance = UpdatedBalance;
+            updatedBankAccount.User = null;
+
+            var response = await _client.PutAsync("/api/bank-accounts", TestUtil.ToJsonContent(updatedBankAccount));
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            // Validate the BankAccount in the database
+            var bankAccountList = _applicationDatabaseContext.BankAccounts
+                .Include(bankAccount => bankAccount.User)
+                .AsNoTracking()
+                .ToList();
+            bankAccountList.Count().Should().Be(databaseSizeBeforeUpdate);
+            var testBankAccount = bankAccountList[bankAccountList.Count - 1];
+            testBankAccount.Name.Should().Be(UpdatedName);
+            testBankAccount.Balance.Should().Be(UpdatedBalance);
+            testBankAccount.User.Should().BeNull();
+        }
+
+        [Fact]
         public async Task UpdateNonExistingBankAccount()
         {
             var databaseSizeBeforeUpdate = _applicationDatabaseContext.BankAccounts.Count();

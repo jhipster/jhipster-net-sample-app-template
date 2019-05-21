@@ -55,6 +55,10 @@ namespace JHipsterNetSampleApplication.Controllers {
             if (bankAccount.Id == 0) throw new BadRequestAlertException("Invalid Id", EntityName, "idnull");
             //TODO catch //DbUpdateConcurrencyException into problem
             _applicationDatabaseContext.Update(bankAccount);
+            /* Force the reference navigation property to be in "modified" state.
+               This allows to modify it with a null value (the field is nullable).
+               This takes into consideration the case of removing the association between the two instances. */
+            _applicationDatabaseContext.Entry(bankAccount).Reference(bA => bA.User).IsModified = true;
             await _applicationDatabaseContext.SaveChangesAsync();
             return Ok(bankAccount)
                 .WithHeaders(HeaderUtil.CreateEntityUpdateAlert(EntityName, bankAccount.Id.ToString()));

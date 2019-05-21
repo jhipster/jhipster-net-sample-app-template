@@ -55,6 +55,10 @@ namespace JHipsterNetSampleApplication.Controllers {
             //TODO catch //DbUpdateConcurrencyException into problem
             _applicationDatabaseContext.OperationLabels.RemoveNavigationProperty(operation, operation.Id);
             _applicationDatabaseContext.Update(operation);
+            /* Force the reference navigation property to be in "modified" state.
+               This allows to modify it with a null value (the field is nullable).
+               This takes into consideration the case of removing the association between the two instances. */
+            _applicationDatabaseContext.Entry(operation).Reference(o => o.BankAccount).IsModified = true;
             await _applicationDatabaseContext.SaveChangesAsync();
             return Ok(operation).WithHeaders(HeaderUtil.CreateEntityUpdateAlert(EntityName, operation.Id.ToString()));
         }

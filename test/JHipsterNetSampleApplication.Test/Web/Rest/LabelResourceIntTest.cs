@@ -159,6 +159,47 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
         }
 
         [Fact]
+        public async Task DeleteLabelWithManyToManyAssociation()
+        {
+            // Due to JsonIgnore annotation on Operations property, we first create the Label
+            // This allow the operation to create the relationship
+            _applicationDatabaseContext.Labels.Add(_label);
+            await _applicationDatabaseContext.SaveChangesAsync();
+
+            // Create an Operation to test the ManyToMany association
+            var operation = new Operation {
+                Date = DateTime.Now,
+                Description = "BBBBBBBBBB",
+                Amount = new decimal(2.0)
+            };
+            operation.Labels.Add(_label);
+            _applicationDatabaseContext.Operations.Add(operation);
+            await _applicationDatabaseContext.SaveChangesAsync();
+
+            var databaseSizeBeforeDelete = _applicationDatabaseContext.Labels.Count();
+
+            var response = await _client.DeleteAsync($"/api/labels/{_label.Id}");
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            // Validate the database is empty
+            var labelList = _applicationDatabaseContext.Labels
+                .AsNoTracking()
+                .ToList();
+            labelList.Count().Should().Be(databaseSizeBeforeDelete - 1);
+
+            // Validate the Operation in the database and in particular there is no more Label referenced
+            var testOperation = await _applicationDatabaseContext.Operations
+                .Include(o => o.OperationLabels)
+                    .ThenInclude(operationLabel => operationLabel.Label)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(o => o.Id == operation.Id);
+            testOperation.Date.Should().Be(operation.Date);
+            testOperation.Description.Should().Be(operation.Description);
+            testOperation.Amount.Should().Be(operation.Amount);
+            testOperation.Labels.Should().BeEmpty();
+        }
+
+        [Fact]
         public void EqualsVerifier()
         {
             TestUtil.EqualsVerifier(typeof(Label));

@@ -123,6 +123,15 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
             testOperation.Description.Should().Be(DefaultDescription);
             testOperation.Amount.Should().Be(DefaultAmount);
             testOperation.BankAccount.Should().Be(bankAccount);
+
+            // Validate the BankAccount in the database
+            var testBankAccount = await _applicationDatabaseContext.BankAccounts
+                .Include(bA => bA.Operations)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(bA => bA.Id == bankAccount.Id);
+            testBankAccount.Name.Should().Be(bankAccount.Name);
+            testBankAccount.Balance.Should().Be(bankAccount.Balance);
+            testBankAccount.Operations[0].Should().Be(testOperation);
         }
 
         [Fact]
@@ -182,6 +191,83 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
             // Validate the database is empty
             var operationList = _applicationDatabaseContext.Operations.ToList();
             operationList.Count().Should().Be(databaseSizeBeforeDelete - 1);
+        }
+
+        [Fact]
+        public async Task DeleteOperationWithExistingReferencedEntity()
+        {
+            // Create a BankAccount to referenced
+            var bankAccount = new BankAccount {
+                Name = "AAAAAAAAAA",
+                Balance = new decimal(1.0)
+            };
+            _applicationDatabaseContext.BankAccounts.Add(bankAccount);
+            await _applicationDatabaseContext.SaveChangesAsync();
+
+            // Set the referencing field
+            _operation.BankAccount = bankAccount;
+
+            // Initialize the database
+            _applicationDatabaseContext.Operations.Add(_operation);
+            await _applicationDatabaseContext.SaveChangesAsync();
+
+            var databaseSizeBeforeDelete = _applicationDatabaseContext.Operations.Count();
+
+            var response = await _client.DeleteAsync($"/api/operations/{_operation.Id}");
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            // Validate the database is empty
+            var operationList = _applicationDatabaseContext.Operations
+                .AsNoTracking()
+                .ToList();
+            operationList.Count().Should().Be(databaseSizeBeforeDelete - 1);
+
+            // Validate the BankAccount in the database and in particular there is no more Operation referenced
+            var testBankAccount = await _applicationDatabaseContext.BankAccounts
+                .Include(bA => bA.Operations)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(bA => bA.Id == bankAccount.Id);
+            testBankAccount.Name.Should().Be(bankAccount.Name);
+            testBankAccount.Balance.Should().Be(bankAccount.Balance);
+            testBankAccount.Operations.Should().BeEmpty();
+        }
+
+        [Fact]
+        public async Task DeleteOperationWithManyToManyAssociation()
+        {
+            // Create a Label to test the ManyToMany association
+            var label = new Label {
+                Name = "AAAAAAAAAA"
+            };
+            _applicationDatabaseContext.Labels.Add(label);
+            await _applicationDatabaseContext.SaveChangesAsync();
+
+            // Set the referencing field
+            _operation.Labels.Add(label);
+
+            // Initialize the database
+            _applicationDatabaseContext.Operations.Add(_operation);
+            await _applicationDatabaseContext.SaveChangesAsync();
+
+            var databaseSizeBeforeDelete = _applicationDatabaseContext.Operations.Count();
+
+            var response = await _client.DeleteAsync($"/api/operations/{_operation.Id}");
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            // Validate the database is empty
+            var operationList = _applicationDatabaseContext.Operations
+                .AsNoTracking()
+                .ToList();
+            operationList.Count().Should().Be(databaseSizeBeforeDelete - 1);
+
+            // Validate the Label in the database and in particular there is no more Operation referenced
+            var testLabel = await _applicationDatabaseContext.Labels
+                .Include(l => l.OperationLabels)
+                    .ThenInclude(operationLabel => operationLabel.Operation)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(l => l.Id == label.Id);
+            testLabel.Name.Should().Be(label.Name);
+            testLabel.Operations.Should().BeEmpty();
         }
 
         [Fact]
@@ -337,11 +423,29 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
             testOperation.Description.Should().Be(UpdatedDescription);
             testOperation.Amount.Should().Be(UpdatedAmount);
             testOperation.BankAccount.Should().Be(updatedBankAccount);
+
+            // Validate the updatedBankAccount in the database
+            var testUpdatedBankAccount = await _applicationDatabaseContext.BankAccounts
+                .Include(bA => bA.Operations)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(bA => bA.Id == updatedBankAccount.Id);
+            testUpdatedBankAccount.Name.Should().Be(updatedBankAccount.Name);
+            testUpdatedBankAccount.Balance.Should().Be(updatedBankAccount.Balance);
+            testUpdatedBankAccount.Operations[0].Should().Be(testOperation);
+
+            // Validate the bankAccount in the database
+            var testBankAccount = await _applicationDatabaseContext.BankAccounts
+                .Include(bA => bA.Operations)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(bA => bA.Id == bankAccount.Id);
+            testBankAccount.Name.Should().Be(bankAccount.Name);
+            testBankAccount.Balance.Should().Be(bankAccount.Balance);
+            testBankAccount.Operations.Should().BeEmpty();
         }
 
         [Fact]
         public async Task UpdateOperationWithManyToManyAssociation()
-        {   
+        {
             // Create two Labels to test the ManyToMany association
             var label = new Label {
                 Name = "AAAAAAAAAA"
@@ -406,6 +510,61 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
                 .SingleOrDefaultAsync(l => l.Id == 1);
             testLabel.Name.Should().Be(label.Name);
             testLabel.Operations.Should().BeEmpty();
+        }
+
+        [Fact]
+        public async Task UpdateOperationWithReferencedEntityToNull()
+        {
+            // Create a BankAccount to referenced
+            var bankAccount = new BankAccount {
+                Name = "AAAAAAAAAA",
+                Balance = new decimal(1.0)
+            };
+            _applicationDatabaseContext.BankAccounts.Add(bankAccount);
+            await _applicationDatabaseContext.SaveChangesAsync();
+
+            // Set the referencing field
+            _operation.BankAccount = bankAccount;
+
+            // Initialize the database with an operation
+            _applicationDatabaseContext.Operations.Add(_operation);
+            await _applicationDatabaseContext.SaveChangesAsync();
+
+            var databaseSizeBeforeUpdate = _applicationDatabaseContext.Operations.Count();
+
+            // Update the operation
+            var updatedOperation = await _applicationDatabaseContext.Operations
+                .SingleOrDefaultAsync(it => it.Id == _operation.Id);
+            // Disconnect from session so that the updates on updatedOperation are not directly saved in db
+            //TODO detach
+            updatedOperation.Date = UpdatedDate;
+            updatedOperation.Description = UpdatedDescription;
+            updatedOperation.Amount = UpdatedAmount;
+            updatedOperation.BankAccount = null;
+
+            var response = await _client.PutAsync("/api/operations", TestUtil.ToJsonContent(updatedOperation));
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            // Validate the Operation in the database
+            var operationList = _applicationDatabaseContext.Operations
+                .Include(operation => operation.BankAccount)
+                .AsNoTracking()
+                .ToList();
+            operationList.Count().Should().Be(databaseSizeBeforeUpdate);
+            var testOperation = operationList[operationList.Count - 1];
+            testOperation.Date.Should().Be(UpdatedDate);
+            testOperation.Description.Should().Be(UpdatedDescription);
+            testOperation.Amount.Should().Be(UpdatedAmount);
+            testOperation.BankAccount.Should().BeNull();
+
+            // Validate the bankAccount in the database
+            var testBankAccount = await _applicationDatabaseContext.BankAccounts
+                .Include(bA => bA.Operations)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(bA => bA.Id == bankAccount.Id);
+            testBankAccount.Name.Should().Be(bankAccount.Name);
+            testBankAccount.Balance.Should().Be(bankAccount.Balance);
+            testBankAccount.Operations.Should().BeEmpty();
         }
     }
 }
