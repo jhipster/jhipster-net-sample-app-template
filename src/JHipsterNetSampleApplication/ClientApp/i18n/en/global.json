@@ -1,8 +1,7 @@
 {
     "global": {
         "title": "JhipsterNetSampleApplication",
-        "browsehappy":
-            "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
+        "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
         "menu": {
             "home": "Home",
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
@@ -38,15 +37,15 @@
             "language": "Language"
         },
         "form": {
-            "username": "Username",
+            "username.label": "Username",
             "username.placeholder": "Your username",
-            "currentpassword": "Current password",
+            "currentpassword.label": "Current password",
             "currentpassword.placeholder": "Current password",
-            "newpassword": "New password",
+            "newpassword.label": "New password",
             "newpassword.placeholder": "New password",
-            "confirmpassword": "New password confirmation",
+            "confirmpassword.label": "New password confirmation",
             "confirmpassword.placeholder": "Confirm the new password",
-            "email": "Email",
+            "email.label": "Email",
             "email.placeholder": "Your email"
         },
         "messages": {
@@ -54,8 +53,7 @@
                 "authenticated": {
                     "prefix": "If you want to ",
                     "link": "sign in",
-                    "suffix":
-                        ", you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\")."
+                    "suffix": ", you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\")."
                 },
                 "register": {
                     "noaccount": "You don't have an account yet?",
@@ -93,49 +91,49 @@
         },
         "item-count": "Showing {{first}} - {{second}} of {{total}} items."
     },
-    "entity": {
-        "action": {
-            "addblob": "Add blob",
-            "addimage": "Add image",
-            "back": "Back",
-            "cancel": "Cancel",
-            "delete": "Delete",
-            "edit": "Edit",
-            "open": "Open",
-            "save": "Save",
-            "view": "View"
-        },
-        "detail": {
-            "field": "Field",
-            "value": "Value"
-        },
-        "delete": {
-            "title": "Confirm delete operation"
-        },
-        "validation": {
-            "required": "This field is required.",
-            "minlength": "This field is required to be at least {{ min }} characters.",
-            "maxlength": "This field cannot be longer than {{ max }} characters.",
-            "min": "This field should be at least {{ min }}.",
-            "max": "This field cannot be more than {{ max }}.",
-            "minbytes": "This field should be at least {{ min }} bytes.",
-            "maxbytes": "This field cannot be more than {{ max }} bytes.",
-            "pattern": "This field should follow pattern for {{ pattern }}.",
-            "number": "This field should be a number.",
-            "datetimelocal": "This field should be a date and time.",
-            "patternLogin": "This field can only contain letters, digits and e-mail addresses."
-        }
+  "entity": {
+    "action": {
+      "addblob": "Add blob",
+      "addimage": "Add image",
+      "back": "Back",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "open": "Open",
+      "save": "Save",
+      "view": "View"
     },
-    "error": {
-        "internalServerError": "Internal server error",
-        "server.not.reachable": "Server not reachable",
-        "url.not.found": "Not found",
-        "NotNull": "Field {{ fieldName }} cannot be empty!",
-        "Size": "Field {{ fieldName }} does not meet min/max size requirements!",
-        "userexists": "Login name already used!",
-        "emailexists": "Email is already in use!",
-        "idexists": "A new {{ entityName }} cannot already have an ID",
-        "idnull": "Invalid ID"
+    "detail": {
+      "field": "Field",
+      "value": "Value"
     },
-    "footer": "This is your footer"
+    "delete": {
+      "title": "Confirm delete operation"
+    },
+    "validation": {
+      "required": "This field is required.",
+      "minlength": "This field is required to be at least {{ min }} characters.",
+      "maxlength": "This field cannot be longer than {{ max }} characters.",
+      "min": "This field should be at least {{ min }}.",
+      "max": "This field cannot be more than {{ max }}.",
+      "minbytes": "This field should be at least {{ min }} bytes.",
+      "maxbytes": "This field cannot be more than {{ max }} bytes.",
+      "pattern": "This field should follow pattern for {{ pattern }}.",
+      "number": "This field should be a number.",
+      "datetimelocal": "This field should be a date and time.",
+      "patternLogin": "This field can only contain letters, digits and e-mail addresses."
+    }
+  },
+  "error": {
+    "internalServerError": "Internal server error",
+    "server.not.reachable": "Server not reachable",
+    "url.not.found": "Not found",
+    "NotNull": "Field {{ fieldName }} cannot be empty!",
+    "Size": "Field {{ fieldName }} does not meet min/max size requirements!",
+    "userexists": "Login name already used!",
+    "emailexists": "Email is already in use!",
+    "idexists": "A new {{ entityName }} cannot already have an ID",
+    "idnull": "Invalid ID"
+  },
+  "footer": "This is your footer"
 }

@@ -4,11 +4,11 @@ const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 
 const utils = require('./utils.js');
 
-module.exports = (WATCH) =;> ({
+module.exports = (WATCH) => ({
     resolve: {
         extensions: ['.ts', '.js'],
         alias: {
-            app: utils.root('app/')
+            app: utils.root('ClientApp/app/')
         }
     },
     module: {

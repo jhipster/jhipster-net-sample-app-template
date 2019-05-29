@@ -4,7 +4,7 @@ import { JhipsterNetSampleApplicationSharedLibsModule, FindLanguageFromKeyPipe, 
 
 @NgModule({
     imports: [JhipsterNetSampleApplicationSharedLibsModule],
-    declarations: [FindLanguageFromKeyPipe, JhiAlertComponent, JhiAlertErrorComponent],
+  declarations: [FindLanguageFromKeyPipe, JhiAlertComponent, JhiAlertErrorComponent],
     exports: [JhipsterNetSampleApplicationSharedLibsModule, FindLanguageFromKeyPipe, JhiAlertComponent, JhiAlertErrorComponent]
 })
 export class JhipsterNetSampleApplicationSharedCommonModule {}
