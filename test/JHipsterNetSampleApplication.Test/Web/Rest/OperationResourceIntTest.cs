@@ -35,7 +35,6 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
         private readonly NhipsterWebApplicationFactory<Startup> _factory;
         private readonly HttpClient _client;
 
-
         private readonly ApplicationDatabaseContext _applicationDatabaseContext;
 
         private Operation _operation;
@@ -274,16 +273,16 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
         public void EqualsVerifier()
         {
             TestUtil.EqualsVerifier(typeof(Operation));
-            var operation1 = new User {
-                Id = "operation-1"
+            var operation1 = new Operation {
+                Id = 1L
             };
-            var operation2 = new User {
+            var operation2 = new Operation {
                 Id = operation1.Id
             };
             operation1.Should().Be(operation2);
-            operation2.Id = "operation-2";
+            operation2.Id = 2L;
             operation1.Should().NotBe(operation2);
-            operation1.Id = null;
+            operation1.Id = 0;
             operation1.Should().NotBe(operation2);
         }
 
@@ -498,7 +497,7 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
                 .Include(l => l.OperationLabels)
                     .ThenInclude(operationLabel => operationLabel.Operation)
                 .AsNoTracking()
-                .SingleOrDefaultAsync(l => l.Id == 2);
+                .SingleOrDefaultAsync(l => l.Id == updatedLabel.Id);
             testUpdatedLabel.Name.Should().Be(updatedLabel.Name);
             testUpdatedLabel.Operations[0].Should().Be(testOperation);
 
@@ -507,7 +506,7 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
                 .Include(l => l.OperationLabels)
                     .ThenInclude(operationLabel => operationLabel.Operation)
                 .AsNoTracking()
-                .SingleOrDefaultAsync(l => l.Id == 1);
+                .SingleOrDefaultAsync(l => l.Id == label.Id);
             testLabel.Name.Should().Be(label.Name);
             testLabel.Operations.Should().BeEmpty();
         }
@@ -536,7 +535,7 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
             var updatedOperation = await _applicationDatabaseContext.Operations
                 .SingleOrDefaultAsync(it => it.Id == _operation.Id);
             // Disconnect from session so that the updates on updatedOperation are not directly saved in db
-            //TODO detach
+//TODO detach
             updatedOperation.Date = UpdatedDate;
             updatedOperation.Description = UpdatedDescription;
             updatedOperation.Amount = UpdatedAmount;
