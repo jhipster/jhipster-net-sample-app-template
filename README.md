@@ -36,3 +36,15 @@ The development rules are:
 # Test
 
 To run the solution tests, simply run: `dotnet test`
+
+# Running the app in a Docker container
+
+1. Build the Docker image of the app
+```bash
+docker build -f "[Dockerfile path]" -t [An image name]:[A tag] "[Application root path]"
+```
+2. Run your image in a Docker container
+```bash
+docker run -d -p [A host port]:80 [Image name]:[Image tag]
+```
+3. Open your favorite browser at ```localhost:[Chosen host port]``` and enjoy ! :whale:
