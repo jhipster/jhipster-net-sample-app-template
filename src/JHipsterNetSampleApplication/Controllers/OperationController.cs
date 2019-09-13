@@ -39,7 +39,6 @@ namespace JHipsterNetSampleApplication.Controllers {
             _log.LogDebug($"REST request to save Operation : {operation}");
             if (operation.Id != 0)
                 throw new BadRequestAlertException("A new operation cannot already have an ID", EntityName, "idexists");
-
             _applicationDatabaseContext.AddGraph(operation);
             await _applicationDatabaseContext.SaveChangesAsync();
             return CreatedAtAction(nameof(GetOperation), new { id = operation.Id }, operation)
@@ -69,7 +68,6 @@ namespace JHipsterNetSampleApplication.Controllers {
             _log.LogDebug("REST request to get a page of Operations");
             var page = _applicationDatabaseContext.Operations
                 .Include(operation => operation.BankAccount)
-                    .ThenInclude(bankAccount => bankAccount.User)
                 .UsePageable(pageable);
             var headers = PaginationUtil.GeneratePaginationHttpHeaders(page, HttpContext.Request);
             return Ok(page.Content).WithHeaders(headers);
@@ -81,7 +79,6 @@ namespace JHipsterNetSampleApplication.Controllers {
             _log.LogDebug($"REST request to get Operation : {id}");
             var result = await _applicationDatabaseContext.Operations
                 .Include(operation => operation.BankAccount)
-                    .ThenInclude(bankAccount => bankAccount.User)
                 .Include(operation => operation.OperationLabels)
                     .ThenInclude(operationLabel => operationLabel.Label)
                 .SingleOrDefaultAsync(operation => operation.Id == id);

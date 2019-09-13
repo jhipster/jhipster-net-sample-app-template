@@ -38,9 +38,7 @@ namespace JHipsterNetSampleApplication.Controllers {
         {
             _log.LogDebug($"REST request to save BankAccount : {bankAccount}");
             if (bankAccount.Id != 0)
-                throw new BadRequestAlertException("A new bankAccount cannot already have an ID", EntityName,
-                    "idexists");
-
+                throw new BadRequestAlertException("A new bankAccount cannot already have an ID", EntityName, "idexists");
             _applicationDatabaseContext.AddGraph(bankAccount);
             await _applicationDatabaseContext.SaveChangesAsync();
             return CreatedAtAction(nameof(GetBankAccount), new { id = bankAccount.Id }, bankAccount)
