@@ -149,16 +149,16 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
         public void EqualsVerifier()
         {
             TestUtil.EqualsVerifier(typeof(BankAccount));
-            var bankAccount1 = new User {
-                Id = "bankAccount-1"
+            var bankAccount1 = new BankAccount {
+                Id = 1L
             };
-            var bankAccount2 = new User {
+            var bankAccount2 = new BankAccount {
                 Id = bankAccount1.Id
             };
             bankAccount1.Should().Be(bankAccount2);
-            bankAccount2.Id = "bankAccount-2";
+            bankAccount2.Id = 2L;
             bankAccount1.Should().NotBe(bankAccount2);
-            bankAccount1.Id = null;
+            bankAccount1.Id = 0;
             bankAccount1.Should().NotBe(bankAccount2);
         }
 
@@ -290,7 +290,7 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
             var updatedBankAccount = await _applicationDatabaseContext.BankAccounts
                 .SingleOrDefaultAsync(it => it.Id == _bankAccount.Id);
             // Disconnect from session so that the updates on updatedBankAccount are not directly saved in db
-            //TODO detach
+//TODO detach
             updatedBankAccount.Name = UpdatedName;
             updatedBankAccount.Balance = UpdatedBalance;
             updatedBankAccount.User = null;

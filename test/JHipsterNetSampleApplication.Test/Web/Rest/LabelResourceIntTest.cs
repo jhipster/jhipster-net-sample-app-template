@@ -134,7 +134,7 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
                 .Include(o => o.OperationLabels)
                     .ThenInclude(operationLabel => operationLabel.Label)
                 .AsNoTracking()
-                .SingleOrDefaultAsync(o => o.Id == 1);
+                .SingleOrDefaultAsync(o => o.Id == operation.Id);
             testOperation.Date.Should().Be(operation.Date);
             testOperation.Description.Should().Be(operation.Description);
             testOperation.Amount.Should().Be(operation.Amount);
@@ -203,16 +203,16 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
         public void EqualsVerifier()
         {
             TestUtil.EqualsVerifier(typeof(Label));
-            var label1 = new User {
-                Id = "label-1"
+            var label1 = new Label {
+                Id = 1L
             };
-            var label2 = new User {
+            var label2 = new Label {
                 Id = label1.Id
             };
             label1.Should().Be(label2);
-            label2.Id = "label-2";
+            label2.Id = 2L;
             label1.Should().NotBe(label2);
-            label1.Id = null;
+            label1.Id = 0;
             label1.Should().NotBe(label2);
         }
 
@@ -318,7 +318,7 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
             var updatedLabel = await _applicationDatabaseContext.Labels
                 .SingleOrDefaultAsync(it => it.Id == _label.Id);
             // Disconnect from session so that the updates on updatedLabel are not directly saved in db
-            //TODO detach
+//TODO detach
             updatedLabel.Name = UpdatedName;
 
             var response = await _client.PutAsync("/api/labels", TestUtil.ToJsonContent(updatedLabel));
@@ -341,10 +341,10 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
                 .AsNoTracking()
                 .ToList();
             labelList.Count().Should().Be(databaseSizeBeforeUpdate);
-            var testUpdatedLabel = labelList[labelList.Count - 1];
-            testUpdatedLabel.Name.Should().Be(UpdatedName);
-            testUpdatedLabel.Operations[0].Should().Be(operation);
-            testUpdatedLabel.Operations[1].Should().Be(updatedOperation);
+            var testLabel = labelList[labelList.Count - 1];
+            testLabel.Name.Should().Be(UpdatedName);
+            testLabel.Operations[0].Should().Be(operation);
+            testLabel.Operations[1].Should().Be(updatedOperation);
 
             // Validate the updatedOperation in the database and in particular the Label referenced
             var testUpdatedOperation = await _applicationDatabaseContext.Operations
@@ -355,7 +355,7 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
             testUpdatedOperation.Date.Should().Be(updatedOperation.Date);
             testUpdatedOperation.Description.Should().Be(updatedOperation.Description);
             testUpdatedOperation.Amount.Should().Be(updatedOperation.Amount);
-            testUpdatedOperation.Labels[0].Should().Be(testUpdatedLabel);
+            testUpdatedOperation.Labels[0].Should().Be(testLabel);
 
             // Validate the operation in the database and in particular the Label referenced
             var testOperation = await _applicationDatabaseContext.Operations
@@ -366,7 +366,7 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
             testOperation.Date.Should().Be(operation.Date);
             testOperation.Description.Should().Be(operation.Description);
             testOperation.Amount.Should().Be(operation.Amount);
-            testOperation.Labels[0].Should().Be(testUpdatedLabel);
+            testOperation.Labels[0].Should().Be(testLabel);
         }
     }
 }
