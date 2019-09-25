@@ -24,7 +24,7 @@ namespace JHipsterNetSampleApplication.Infrastructure {
         public static IApplicationBuilder UseApplicationDatabase(this IApplicationBuilder @this,
             IServiceProvider serviceProvider, IHostingEnvironment environment)
         {
-            if (environment.IsDevelopment()) {
+            if (environment.IsDevelopment() || environment.IsProduction()) {
                 var context = serviceProvider.GetRequiredService<ApplicationDatabaseContext>();
                 context.Database.OpenConnection();
                 context.Database.EnsureCreated();

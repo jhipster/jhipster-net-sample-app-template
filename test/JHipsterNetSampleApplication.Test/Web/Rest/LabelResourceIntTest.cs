@@ -115,16 +115,16 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
         public void EqualsVerifier()
         {
             TestUtil.EqualsVerifier(typeof(Label));
-            var label1 = new User {
-                Id = "label-1"
+            var label1 = new Label {
+                Id = 1L
             };
-            var label2 = new User {
+            var label2 = new Label {
                 Id = label1.Id
             };
             label1.Should().Be(label2);
-            label2.Id = "label-2";
+            label2.Id = 2L;
             label1.Should().NotBe(label2);
-            label1.Id = null;
+            label1.Id = 0;
             label1.Should().NotBe(label2);
         }
 
