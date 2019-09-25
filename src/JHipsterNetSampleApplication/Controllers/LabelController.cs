@@ -38,9 +38,7 @@ namespace JHipsterNetSampleApplication.Controllers {
         {
             _log.LogDebug($"REST request to save Label : {label}");
             if (label.Id != 0)
-                throw new BadRequestAlertException("A new label cannot already have an ID", EntityName,
-                    "idexists");
-
+                throw new BadRequestAlertException("A new label cannot already have an ID", EntityName, "idexists");
             _applicationDatabaseContext.Labels.Add(label);
             await _applicationDatabaseContext.SaveChangesAsync();
             return CreatedAtAction(nameof(GetLabel), new { id = label.Id }, label)

@@ -99,36 +99,6 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
         }
 
         [Fact]
-        public async Task CreateBankAccountWithExistingReferencedEntity()
-        {
-            // Get a User to referenced
-            var user = _applicationDatabaseContext.Users.ToList()[0];
-
-            var databaseSizeBeforeCreate = _applicationDatabaseContext.BankAccounts.Count();
-
-            // Set the referencing field
-            _bankAccount.User = user;
-
-            // Create the BankAccount
-            var response = await _client.PostAsync("/api/bank-accounts", TestUtil.ToJsonContent(_bankAccount));
-            response.StatusCode.Should().Be(HttpStatusCode.Created);
-
-            // Validate the BankAccount in the database
-            /* AsNoTracking() permits to avoid the use of the cache and force to fetch data from the database.
-               It is needed because another context makes the update and our context doesn't have the knowlegde of
-               data changes and without it our context will fetch from its cache omitting the changes done. */
-            var bankAccountList = _applicationDatabaseContext.BankAccounts
-                .Include(bankAccount => bankAccount.User)
-                .AsNoTracking()
-                .ToList();
-            bankAccountList.Count().Should().Be(databaseSizeBeforeCreate + 1);
-            var testBankAccount = bankAccountList[bankAccountList.Count - 1];
-            testBankAccount.Name.Should().Be(DefaultName);
-            testBankAccount.Balance.Should().Be(DefaultBalance);
-            testBankAccount.User.Should().Be(user);
-        }
-
-        [Fact]
         public async Task DeleteBankAccount()
         {
             // Initialize the database
@@ -229,85 +199,6 @@ namespace JHipsterNetSampleApplication.Test.Web.Rest {
             var testBankAccount = bankAccountList[bankAccountList.Count - 1];
             testBankAccount.Name.Should().Be(UpdatedName);
             testBankAccount.Balance.Should().Be(UpdatedBalance);
-        }
-
-        [Fact]
-        public async Task UpdateBankAccountWithExistingReferencedEntity()
-        {
-            // Get two Users to referenced
-            var user = _applicationDatabaseContext.Users.ToList()[0];
-            var updatedUser = _applicationDatabaseContext.Users.ToList()[1];
-
-            // Set the referencing field
-            _bankAccount.User = user;
-
-            // Initialize the database with a bankAccount
-            _applicationDatabaseContext.BankAccounts.Add(_bankAccount);
-            await _applicationDatabaseContext.SaveChangesAsync();
-
-            var databaseSizeBeforeUpdate = _applicationDatabaseContext.BankAccounts.Count();
-
-            // Update the bankAccount
-            var updatedBankAccount = await _applicationDatabaseContext.BankAccounts
-                .SingleOrDefaultAsync(it => it.Id == _bankAccount.Id);
-            // Disconnect from session so that the updates on updatedBankAccount are not directly saved in db
-//TODO detach
-            updatedBankAccount.Name = UpdatedName;
-            updatedBankAccount.Balance = UpdatedBalance;
-            updatedBankAccount.User = updatedUser;
-
-            var response = await _client.PutAsync("/api/bank-accounts", TestUtil.ToJsonContent(updatedBankAccount));
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-            // Validate the BankAccount in the database
-            var bankAccountList = _applicationDatabaseContext.BankAccounts
-                .Include(bankAccount => bankAccount.User)
-                .AsNoTracking()
-                .ToList();
-            bankAccountList.Count().Should().Be(databaseSizeBeforeUpdate);
-            var testBankAccount = bankAccountList[bankAccountList.Count - 1];
-            testBankAccount.Name.Should().Be(UpdatedName);
-            testBankAccount.Balance.Should().Be(UpdatedBalance);
-            testBankAccount.User.Should().Be(updatedUser);
-        }
-
-        [Fact]
-        public async Task UpdateBankAccountWithReferencedEntityToNull()
-        {
-            // Get a User to referenced
-            var user = _applicationDatabaseContext.Users.ToList()[0];
-
-            // Set the referencing field
-            _bankAccount.User = user;
-
-            // Initialize the database with a bankAccount
-            _applicationDatabaseContext.BankAccounts.Add(_bankAccount);
-            await _applicationDatabaseContext.SaveChangesAsync();
-
-            var databaseSizeBeforeUpdate = _applicationDatabaseContext.BankAccounts.Count();
-
-            // Update the bankAccount
-            var updatedBankAccount = await _applicationDatabaseContext.BankAccounts
-                .SingleOrDefaultAsync(it => it.Id == _bankAccount.Id);
-            // Disconnect from session so that the updates on updatedBankAccount are not directly saved in db
-//TODO detach
-            updatedBankAccount.Name = UpdatedName;
-            updatedBankAccount.Balance = UpdatedBalance;
-            updatedBankAccount.User = null;
-
-            var response = await _client.PutAsync("/api/bank-accounts", TestUtil.ToJsonContent(updatedBankAccount));
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-            // Validate the BankAccount in the database
-            var bankAccountList = _applicationDatabaseContext.BankAccounts
-                .Include(bankAccount => bankAccount.User)
-                .AsNoTracking()
-                .ToList();
-            bankAccountList.Count().Should().Be(databaseSizeBeforeUpdate);
-            var testBankAccount = bankAccountList[bankAccountList.Count - 1];
-            testBankAccount.Name.Should().Be(UpdatedName);
-            testBankAccount.Balance.Should().Be(UpdatedBalance);
-            testBankAccount.User.Should().BeNull();
         }
 
         [Fact]
