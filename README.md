@@ -1,3 +1,7 @@
+# [DEPRECATED]
+This repository was only there to build the first version of the .net generator. The sample application is here. 
+https://github.com/jhipster/jhipster-sample-app-dotnetcore
+
 # JHipsterNetSampleApplication
 
 [![Build Status](https://travis-ci.org/jhipster/jhipster-net-sample-app-template.svg?branch=master)](https://travis-ci.org/jhipster/jhipster-net-sample-app-template)
